@@ -7,5 +7,25 @@
 Pleiades All in One Eclipse<br>
 https://mergedoc.osdn.jp/
 
-Apache Tomcat 10<br>
-https://tomcat.apache.org/
+MySQL<br>
+https://www.mysql.com/jp/
+
+## 現在の状況
+
+PCにPleiadesとMySQLをインストールした。
+
+Spring Bootの勉強を始める。(そこからかよw)
+
+MySQLに `idols` テーブルを作成。
+
+    CREATE TABLE `idols` (
+        `id` int NOT NULL,
+        `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+        `kana` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+        PRIMARY KEY (`id`),
+        KEY `kana` (`kana`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+以下のURLで、アイドル一覧が取得できるのを確認。
+
+    http://localhost:8080/idol/all
