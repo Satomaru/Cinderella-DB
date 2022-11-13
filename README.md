@@ -10,6 +10,14 @@ https://mergedoc.osdn.jp/
 MySQL<br>
 https://www.mysql.com/jp/
 
+## 注意事項
+
+本プロジェクトは現在、開発を始めたばかりです。
+
+MySQLは公開していませんので、動かしてみたい人は、自力でMySQLを用意して、
+`src/main/resources/application.properties` を修正してください。
+
+
 ## 現在の状況
 
 PCにPleiadesとMySQLをインストールした。
