@@ -17,6 +17,7 @@ https://www.mysql.com/jp/
 MySQLは公開していませんので、動かしてみたい人は、自力でMySQLを用意して、
 `src/main/resources/application.properties` を修正してください。
 
+スキーマ定義はWikiを、テストデータはmiscディレクトリを参照してください。
 
 ## 現在の状況
 
