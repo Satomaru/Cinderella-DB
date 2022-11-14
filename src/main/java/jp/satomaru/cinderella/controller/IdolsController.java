@@ -47,7 +47,9 @@ public class IdolsController {
 	 * @return アイドル
 	 */
 	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Idol> getIdol(@PathVariable(name = "id") Integer id) {
+	public @ResponseBody Optional<Idol> getIdol(
+			@PathVariable Integer id) {
+
 		return idolsRepository.findById(id);
 	}
 }
