@@ -24,16 +24,10 @@ PCにPleiadesとMySQLをインストールした。
 
 Spring Bootの勉強を始める。(そこからかよw)
 
-MySQLに `idols` テーブルを作成。
+以下のURLで、アイドルが取得できるのを確認。
 
-    CREATE TABLE `idols` (
-        `id` int NOT NULL,
-        `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-        `kana` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-        PRIMARY KEY (`id`),
-        KEY `kana` (`kana`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
-以下のURLで、アイドル一覧が取得できるのを確認。
-
-    http://localhost:8080/idol/all
+    http://localhost:8080/cinderella/api/idols/
+    http://localhost:8080/cinderella/api/idols/?type=Cu
+    http://localhost:8080/cinderella/api/idols/?kana=みりあ
+    http://localhost:8080/cinderella/api/idols/?type=Cu&kana=いち
+    http://localhost:8080/cinderella/api/idols/15
