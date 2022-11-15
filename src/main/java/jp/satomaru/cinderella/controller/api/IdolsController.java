@@ -1,4 +1,4 @@
-package jp.satomaru.cinderella.controller;
+package jp.satomaru.cinderella.controller.api;
 
 import java.util.Optional;
 

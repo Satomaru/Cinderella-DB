@@ -25,10 +25,6 @@ PCにPleiadesとMySQLをインストールした。
 
 Spring Bootの勉強を始める。(そこからかよw)
 
-以下のURLで、アイドルが取得できるのを確認。
+アイドル検索画面を追加。
 
-    http://localhost:8080/cinderella/api/idols/
-    http://localhost:8080/cinderella/api/idols/?type=Cu
-    http://localhost:8080/cinderella/api/idols/?kana=みりあ
-    http://localhost:8080/cinderella/api/idols/?type=Cu&kana=いち
-    http://localhost:8080/cinderella/api/idols/15
+    http://localhost:8080/cinderella/idols/
