@@ -3,10 +3,13 @@ package jp.satomaru.cinderella.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.Getter;
+
 /**
  * アイドル。
  */
 @Entity(name = "idols")
+@Getter
 public class Idol {
 
 	/** ID。 */
@@ -26,48 +29,4 @@ public class Idol {
 
 	/** キャラクターボイス。 */
 	private String cv;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getKana() {
-		return kana;
-	}
-
-	public void setKana(String kana) {
-		this.kana = kana;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getBirth() {
-		return birth;
-	}
-
-	public void setBirth(String birth) {
-		this.birth = birth;
-	}
-
-	public String getCv() {
-		return cv;
-	}
-
-	public void setCv(String cv) {
-		this.cv = cv;
-	}
 }
