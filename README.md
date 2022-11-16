@@ -27,4 +27,4 @@ Spring Bootの勉強を始める。(そこからかよw)
 
 アイドル検索画面を追加。
 
-    http://localhost:8080/cinderella/idols
+    http://localhost:8080/cinderella/master

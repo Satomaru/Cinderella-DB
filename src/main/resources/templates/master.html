@@ -1,0 +1,273 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<title>Master - Cinderella DB</title>
+
+		<style>
+			html {
+				overflow-y: scroll;
+			}
+
+			button.exit {
+				margin-left: auto;
+				border: none;
+				background: none;
+				color: #00f;
+			}
+
+			td {
+				vertical-align: middle;
+			}
+
+			button[class^="btn type-"] {
+				width: 12em;
+				color: #fff;
+				box-shadow: none !important;
+				font-weight: bold;
+			}
+
+			button[class^="btn type-"]:hover {
+				color: #fff;
+			}
+
+			.type-Cu {
+				background-color: #f6f;
+			}
+
+			.type-Cu:hover {
+				background-color: #c0c;
+			}
+
+			.type-Pa {
+				background-color: #dd4;
+			}
+
+			.type-Pa:hover {
+				background-color: #bb0;
+			}
+
+			.type-Co {
+				background-color: #44f;
+			}
+
+			.type-Co:hover {
+				background-color: #00b;
+			}
+		</style>
+
+		<script>
+			function showTable(name) {
+				document.getElementById("idolsTable").style.display = (name === "Idols") ? "table" : "none";
+				document.getElementById("songsTable").style.display = (name === "Songs") ? "table" : "none";
+				document.getElementById("discsTable").style.display = (name === "Discs") ? "table" : "none";
+			}
+
+			function request() {
+				const form = document.getElementById("idolsForm");
+				const kana = encodeURI(form.kana.value);
+				const type = encodeURI(form.type.value);
+				const table = document.getElementById("idolsTable");
+				const tbody = table.getElementsByTagName("tbody")[0];
+
+				fetch(`api/idols/?kana=${kana}&type=${type}`)
+					.then(function(response){
+						if (response.status !== 200) {
+							throw `検索に失敗しました。(${response.status})`;
+						}
+
+						return response.text();
+					})
+					.then(function(text) {
+						tbody.innerText = null;
+
+						JSON.parse(text).forEach(function(row) {
+							const buttonName = document.createElement("button");
+							const tdName = document.createElement("td");
+							const tdKana = document.createElement("td");
+							const tdBirth = document.createElement("td");
+							const tdCv = document.createElement("td");
+							const tr = document.createElement("tr");
+
+							buttonName.type = "button";
+							buttonName.className = `btn type-${row.type}`;
+							buttonName.innerText = row.name;
+
+							tdName.appendChild(buttonName);
+							tdKana.innerText = row.kana;
+							tdBirth.innerText = row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4);
+							tdCv.innerText = row.cv;
+
+							tr.appendChild(tdName);
+							tr.appendChild(tdKana);
+							tr.appendChild(tdBirth);
+							tr.appendChild(tdCv);
+							tbody.appendChild(tr);
+						});
+					})
+					.catch(function(error) {
+						alert(error);
+					});
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="col-lg-8 mx-auto">
+			<div class="pt-3 pb-1 bg-white sticky-top">
+				<nav>
+					<div class="nav nav-tabs" role="tablist">
+						<button id="nav-idols-tab"
+							class="nav-link active"
+							data-bs-toggle="tab"
+							data-bs-target="#idolsForm"
+							type="button"
+							role="tab"
+							aria-controls="idolsForm"
+							aria-selected="true"
+							onclick="showTable(this.innerText);">Idols</button>
+
+						<button id="nav-songs-tab"
+							class="nav-link"
+							data-bs-toggle="tab"
+							data-bs-target="#songsForm"
+							type="button"
+							role="tab"
+							aria-controls="songsForm"
+							aria-selected="false"
+							onclick="showTable(this.innerText);">Songs</button>
+
+						<button id="nav-discs-tab"
+							class="nav-link"
+							data-bs-toggle="tab"
+							data-bs-target="#discsForm"
+							type="button"
+							role="tab"
+							aria-controls="discsForm"
+							aria-selected="false"
+							onclick="showTable(this.innerText);">Discs</button>
+
+						<button type="button" class="exit">←Back</button>
+					</div>
+				</nav>
+
+				<div class="tab-content">
+					<form id="idolsForm"
+						class="tab-pane show active h-100 p-2 mb-2 bg-light border rounded-3"
+						role="tabpanel"
+						aria-labelledby="nav-idols-tab"
+						onsubmit="return false;">
+
+						<div class="row align-items-center">
+							<div class="col-auto">
+								<label for="kana" class="col-form-label">かな (部分一致)</label>
+							</div>
+							<div class="col-auto">
+								<input type="text" id="kana" class="form-control" autofocus>
+							</div>
+							<div class="col-auto">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="type" id="typeAll" value="" checked>
+									<label class="form-check-label" for="typeAll">All</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="type" id="typeCu" value="Cu">
+									<label class="form-check-label" for="typeCu">Cu</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="type" id="typePa" value="Pa">
+									<label class="form-check-label" for="typePa">Pa</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="type" id="typeCo" value="Co">
+									<label class="form-check-label" for="typeCo">Co</label>
+								</div>
+							</div>
+							<div class="col" style="text-align: right;">
+								<button type="button" class="btn btn-primary" onclick="request()">検索</button>
+							</div>
+						</div>
+					</form>
+
+					<form id="songsForm"
+						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-3"
+						role="tabpanel"
+						aria-labelledby="nav-songs-tab"
+						onsubmit="return false;">
+
+						<div class="row align-items-center">
+							<div class="col-auto">
+								<label for="kana" class="col-form-label">かな (部分一致)</label>
+							</div>
+							<div class="col-auto">
+								<input type="text" id="kana" class="form-control" autofocus>
+							</div>
+							<div class="col" style="text-align: right;">
+								<button type="button" class="btn btn-primary" onclick="request()">検索</button>
+							</div>
+						</div>
+					</form>
+
+					<form id="discsForm"
+						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-3"
+						role="tabpanel"
+						aria-labelledby="nav-discs-tab"
+						onsubmit="return false;">
+
+						<div class="row align-items-center">
+							<div class="col-auto">
+								<label for="kana" class="col-form-label">かな (部分一致)</label>
+							</div>
+							<div class="col-auto">
+								<input type="text" id="kana" class="form-control" autofocus>
+							</div>
+							<div class="col" style="text-align: right;">
+								<button type="button" class="btn btn-primary" onclick="request()">検索</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<table id="idolsTable" class="table">
+				<thead>
+					<tr>
+						<th scope="col">名前</th>
+						<th scope="col">かな</th>
+						<th scope="col">誕生日</th>
+						<th scope="col">CV</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+
+			<table id="songsTable" class="table" style="display: none;">
+				<thead>
+					<tr>
+						<th scope="col">名前</th>
+						<th scope="col">かな</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+
+			<table id="discsTable" class="table" style="display: none;">
+				<thead>
+					<tr>
+						<th scope="col">名前</th>
+						<th scope="col">かな</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	</body>
+</html>

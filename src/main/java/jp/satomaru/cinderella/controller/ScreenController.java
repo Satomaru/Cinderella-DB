@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ScreenController {
 
-	@GetMapping("/idols")
-	public String showIdols(Model model) {
-		return "idols";
+	@GetMapping("/master")
+	public String showMaster(Model model) {
+		return "master";
 	}
 }
