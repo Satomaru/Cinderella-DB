@@ -1,76 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-		<link th:href="@{/standard.css}" rel="stylesheet">
-		<title>Master - Cinderella DB</title>
 
-		<style>
-			button.exit {
-				margin-left: auto;
-				border: none;
-				background: none;
-				color: #00f;
-			}
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+		<link rel="stylesheet" th:href="@{/standard.css}">
 
-			td {
-				vertical-align: middle;
-			}
-
-			button[class^="btn type-"] {
-				width: 12em;
-				color: #fff;
-				box-shadow: none !important;
-				font-weight: bold;
-			}
-
-			button[class^="btn type-"]:hover {
-				color: #fff;
-			}
-
-			.type-Cu {
-				background-color: #f6f;
-			}
-
-			.type-Cu:hover {
-				background-color: #c0c;
-			}
-
-			.type-Pa {
-				background-color: #dd4;
-			}
-
-			.type-Pa:hover {
-				background-color: #bb0;
-			}
-
-			.type-Co {
-				background-color: #44f;
-			}
-
-			.type-Co:hover {
-				background-color: #00b;
-			}
-		</style>
+		<title>Tracks - Cinderella DB</title>
 
 		<script>
-			function showTable(name) {
-				document.getElementById("idolsTable").style.display = (name === "Idols") ? "table" : "none";
-				document.getElementById("songsTable").style.display = (name === "Songs") ? "table" : "none";
-				document.getElementById("discsTable").style.display = (name === "Discs") ? "table" : "none";
+			function showTable(button) {
+				document.getElementById("idolsTable").style.display = (button.id === "navIdolsTab") ? "table" : "none";
+				document.getElementById("songsTable").style.display = (button.id === "navSongsTab") ? "table" : "none";
+				document.getElementById("discsTable").style.display = (button.id === "navDiscsTab") ? "table" : "none";
 			}
 
 			function searchIdols() {
 				const form = document.getElementById("idolsForm");
-				const kana = encodeURI(form.kana.value);
+				const target = encodeURI(form.target.value);
+				const match = encodeURI(form.match.value);
 				const type = encodeURI(form.type.value);
 				const table = document.getElementById("idolsTable");
 				const tbody = table.getElementsByTagName("tbody")[0];
 
-				fetch(`api/idols/?kana=${kana}&type=${type}`)
+				fetch(`api/idols/?target=${target}&match=${match}&type=${type}`)
 					.then(function(response){
 						if (response.status !== 200) {
 							throw `検索に失敗しました。(${response.status})`;
@@ -113,11 +69,23 @@
 	</head>
 
 	<body>
-		<div class="col-lg-8 mx-auto">
-			<div class="pt-3 pb-1 bg-white sticky-top">
+		<header id="pageHeader" class="sticky-top">
+			<nav class="navbar navbar-expand-sm navbar-dark">
+				<div class="container-fluid">
+					<ul class="navbar-nav">
+						<li class="nav-item"><a class="nav-link" th:href="@{/}">Cinderella DB</a></li>
+						<li class="nav-item"><span class="nav-link active" aria-current="page">Tracks</span></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/elections}">Elections</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/lives}">Lives</a></li>
+						<li class="nav-item"><a class="nav-link" th:href="@{/utility}">Utility</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="container mb-0 bg-white">
 				<nav>
 					<div class="nav nav-tabs" role="tablist">
-						<button id="nav-idols-tab"
+						<button id="navIdolsTab"
 							class="nav-link active"
 							data-bs-toggle="tab"
 							data-bs-target="#idolsForm"
@@ -125,9 +93,9 @@
 							role="tab"
 							aria-controls="idolsForm"
 							aria-selected="true"
-							onclick="showTable(this.innerText);">Idols</button>
+							onclick="showTable(this);"><i class="bi bi-person-circle"></i> By Idol</button>
 
-						<button id="nav-songs-tab"
+						<button id="navSongsTab"
 							class="nav-link"
 							data-bs-toggle="tab"
 							data-bs-target="#songsForm"
@@ -135,9 +103,9 @@
 							role="tab"
 							aria-controls="songsForm"
 							aria-selected="false"
-							onclick="showTable(this.innerText);">Songs</button>
+							onclick="showTable(this);"><i class="bi bi-music-note-list"></i> By Song</button>
 
-						<button id="nav-discs-tab"
+						<button id="navDiscsTab"
 							class="nav-link"
 							data-bs-toggle="tab"
 							data-bs-target="#discsForm"
@@ -145,41 +113,45 @@
 							role="tab"
 							aria-controls="discsForm"
 							aria-selected="false"
-							onclick="showTable(this.innerText);">Discs</button>
-
-						<button type="button" class="exit">←Back</button>
+							onclick="showTable(this);"><i class="bi bi-disc"></i> By Disc</button>
 					</div>
 				</nav>
 
 				<div class="tab-content">
 					<form id="idolsForm"
-						class="tab-pane show active h-100 p-2 mb-2 bg-light border rounded-3"
+						class="tab-pane show active h-100 p-2 mb-2 bg-light border rounded-bottom"
 						role="tabpanel"
-						aria-labelledby="nav-idols-tab"
+						aria-labelledby="navIdolsTab"
 						onsubmit="return false;">
 
 						<div class="row align-items-center">
 							<div class="col-auto">
-								<label for="kana" class="col-form-label">かな (部分一致)</label>
+								<select name="target" class="form-select">
+									<option value="name" selected>名前</option>
+									<option value="kana">かな</option>
+								</select>
 							</div>
 							<div class="col-auto">
-								<input type="text" id="kana" class="form-control" autofocus>
+								<input name="match" type="text" class="form-control" autofocus>
+							</div>
+							<div class="col-auto">
+								タイプ
 							</div>
 							<div class="col-auto">
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="type" id="typeAll" value="" checked>
+									<input id="typeAll" name="type" type="radio" value="" class="form-check-input" checked>
 									<label class="form-check-label" for="typeAll">All</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="type" id="typeCu" value="Cu">
+									<input id="typeCu" name="type" type="radio" value="Cu" class="form-check-input">
 									<label class="form-check-label" for="typeCu">Cu</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="type" id="typePa" value="Pa">
+									<input id="typePa" name="type" type="radio" value="Pa" class="form-check-input">
 									<label class="form-check-label" for="typePa">Pa</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="type" id="typeCo" value="Co">
+									<input id="typeCo" name="type" type="radio" value="Co" class="form-check-input">
 									<label class="form-check-label" for="typeCo">Co</label>
 								</div>
 							</div>
@@ -190,45 +162,53 @@
 					</form>
 
 					<form id="songsForm"
-						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-3"
+						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-bottom"
 						role="tabpanel"
-						aria-labelledby="nav-songs-tab"
+						aria-labelledby="navSongsTab"
 						onsubmit="return false;">
 
 						<div class="row align-items-center">
 							<div class="col-auto">
-								<label for="kana" class="col-form-label">かな (部分一致)</label>
+								<select name="target" class="form-select">
+									<option value="name" selected>名前</option>
+									<option value="kana">かな</option>
+								</select>
 							</div>
 							<div class="col-auto">
-								<input type="text" id="kana" class="form-control" autofocus>
+								<input name="match" type="text" class="form-control" autofocus>
 							</div>
 							<div class="col" style="text-align: right;">
-								<button type="button" class="btn btn-primary" onclick="request()">検索</button>
+								<button type="button" class="btn btn-primary">検索</button>
 							</div>
 						</div>
 					</form>
 
 					<form id="discsForm"
-						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-3"
+						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-bottom"
 						role="tabpanel"
-						aria-labelledby="nav-discs-tab"
+						aria-labelledby="navDiscsTab"
 						onsubmit="return false;">
 
 						<div class="row align-items-center">
 							<div class="col-auto">
-								<label for="kana" class="col-form-label">かな (部分一致)</label>
+								<select name="target" class="form-select">
+									<option value="name" selected>名前</option>
+									<option value="kana">かな</option>
+								</select>
 							</div>
 							<div class="col-auto">
-								<input type="text" id="kana" class="form-control" autofocus>
+								<input name="match" type="text" class="form-control" autofocus>
 							</div>
 							<div class="col" style="text-align: right;">
-								<button type="button" class="btn btn-primary" onclick="request()">検索</button>
+								<button type="button" class="btn btn-primary">検索</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
+		</header>
 
+		<div id="pageContent" class="container">
 			<table id="idolsTable" class="table">
 				<thead>
 					<tr>
@@ -265,7 +245,10 @@
 			</table>
 		</div>
 
-		<img th:src="@{/Cinderella-DB.png}" class="logo">
+		<footer id="pageFooter" class="fixed-bottom">
+			made by STB a.k.a. Satomaru <a href="https://twitter.com/stb_nissie"><i class="bi bi-twitter"></i></a>
+		</footer>
+
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	</body>
 </html>

@@ -16,6 +16,32 @@ public class IdolsService {
 	@Autowired private IdolsRepository idolsRepository;
 
 	/**
+	 * 名前とかなで検索する。
+	 * 
+	 * @param type タイプ (Cu/Pa/Co、ブランク可)
+	 * @param kana 名前 (部分一致、ブランク可)
+	 * @return アイドル一覧
+	 */
+	public Iterable<Idol> findByTypeAndName(String type, String name) {
+		boolean hasType = StringUtils.hasText(type);
+		boolean hasName = StringUtils.hasText(name);
+
+		if (hasType && !hasName) {
+			return idolsRepository.findByType(type);
+		}
+
+		if (!hasType && hasName) {
+			return idolsRepository.findByNameContaining(name);
+		}
+
+		if (hasType && hasName) {
+			return idolsRepository.findByTypeAndNameContaining(type, name);
+		}
+
+		return idolsRepository.findAll();
+	}
+
+	/**
 	 * タイプとかなで検索する。
 	 * 
 	 * @param type タイプ (Cu/Pa/Co、ブランク可)

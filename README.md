@@ -25,6 +25,6 @@ PCにPleiadesとMySQLをインストールした。
 
 Spring Bootの勉強を始める。(そこからかよw)
 
-アイドル検索画面を追加。
+音源検索を行うために、まずはアイドル検索を実装。
 
-    http://localhost:8080/cinderella/master
+    http://localhost:8080/cinderella/tracks

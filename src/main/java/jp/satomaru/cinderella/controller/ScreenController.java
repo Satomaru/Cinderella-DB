@@ -4,11 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * 画面表示コントローラ。
+ */
 @Controller
 public class ScreenController {
 
-	@GetMapping("/master")
-	public String showMaster(Model model) {
-		return "master";
+	@GetMapping("/tracks")
+	public String showTracks(Model model) {
+		return "tracks";
 	}
 }

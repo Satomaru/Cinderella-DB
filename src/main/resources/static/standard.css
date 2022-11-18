@@ -4,10 +4,71 @@ html {
 	overflow-y: scroll;
 }
 
-img.logo {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	opacity: 0.1;
-	z-index: 65535;
+td {
+	vertical-align: middle;
+}
+
+#pageHeader {
+	margin: 0;
+	padding: 0;
+	background-color: #fff;
+}
+
+#pageHeader .navbar {
+	margin: 0 0 8px 0;
+	background: linear-gradient(#fff, #444 20%, #000);
+}
+
+#pageHeader .navbar .nav-link {
+	padding: 0 12px;
+}
+
+#pageHeader .navbar .active {
+	text-decoration: underline;
+}
+
+#pageContent {
+	margin-bottom: 48px;
+}
+
+#pageFooter {
+	padding: 4px 2em;
+	color: #ccc;
+	background: linear-gradient(#fff, #444 20%, #000);
+	text-align: right;
+}
+
+button[class^="btn type-"] {
+	width: 12em;
+	color: #fff;
+	box-shadow: none !important;
+	font-weight: bold;
+}
+
+button[class^="btn type-"]:hover {
+	color: #fff;
+}
+
+button.type-Cu {
+	background-color: #f6f;
+}
+
+button.type-Cu:hover {
+	background-color: #c0c;
+}
+
+button.type-Pa {
+	background-color: #dd4;
+}
+
+button.type-Pa:hover {
+	background-color: #bb0;
+}
+
+button.type-Co {
+	background-color: #44f;
+}
+
+button.type-Co:hover {
+	background-color: #00b;
 }
