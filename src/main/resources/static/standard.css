@@ -38,37 +38,21 @@ td {
 	text-align: right;
 }
 
-button[class^="btn type-"] {
+button[class^="btn type-"], button[class^="btn type-"]:hover {
 	width: 12em;
 	color: #fff;
 	box-shadow: none !important;
 	font-weight: bold;
 }
 
-button[class^="btn type-"]:hover {
-	color: #fff;
-}
-
-button.type-Cu {
+button.type-Cu, button.type-Cu:hover {
 	background-color: #f6f;
 }
 
-button.type-Cu:hover {
-	background-color: #c0c;
+button.type-Pa, button.type-Pa:hover {
+	background-color: #ffc830;
 }
 
-button.type-Pa {
-	background-color: #dd4;
-}
-
-button.type-Pa:hover {
-	background-color: #bb0;
-}
-
-button.type-Co {
+button.type-Co, button.type-Co:hover {
 	background-color: #44f;
-}
-
-button.type-Co:hover {
-	background-color: #00b;
 }
