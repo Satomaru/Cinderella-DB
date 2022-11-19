@@ -39,7 +39,6 @@ td {
 }
 
 button[class^="btn type-"], button[class^="btn type-"]:hover {
-	width: 12em;
 	color: #fff;
 	box-shadow: none !important;
 	font-weight: bold;

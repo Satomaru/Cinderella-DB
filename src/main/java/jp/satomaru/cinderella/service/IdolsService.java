@@ -1,6 +1,7 @@
 package jp.satomaru.cinderella.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -27,18 +28,18 @@ public class IdolsService {
 		boolean hasName = StringUtils.hasText(name);
 
 		if (hasType && !hasName) {
-			return idolsRepository.findByType(type);
+			return idolsRepository.findByTypeOrderByKana(type);
 		}
 
 		if (!hasType && hasName) {
-			return idolsRepository.findByNameContaining(name);
+			return idolsRepository.findByNameContainingOrderByKana(name);
 		}
 
 		if (hasType && hasName) {
-			return idolsRepository.findByTypeAndNameContaining(type, name);
+			return idolsRepository.findByTypeAndNameContainingOrderByKana(type, name);
 		}
 
-		return idolsRepository.findAll();
+		return idolsRepository.findAll(Sort.by("kana"));
 	}
 
 	/**
@@ -53,17 +54,17 @@ public class IdolsService {
 		boolean hasKana = StringUtils.hasText(kana);
 
 		if (hasType && !hasKana) {
-			return idolsRepository.findByType(type);
+			return idolsRepository.findByTypeOrderByKana(type);
 		}
 
 		if (!hasType && hasKana) {
-			return idolsRepository.findByKanaContaining(kana);
+			return idolsRepository.findByKanaContainingOrderByKana(kana);
 		}
 
 		if (hasType && hasKana) {
-			return idolsRepository.findByTypeAndKanaContaining(type, kana);
+			return idolsRepository.findByTypeAndKanaContainingOrderByKana(type, kana);
 		}
 
-		return idolsRepository.findAll();
+		return idolsRepository.findAll(Sort.by("kana"));
 	}
 }

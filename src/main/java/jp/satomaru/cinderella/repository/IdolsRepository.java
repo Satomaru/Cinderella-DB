@@ -15,7 +15,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param type タイプ (Cu/Pa/Co)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByType(String type);
+	Iterable<Idol> findByTypeOrderByKana(String type);
 
 	/**
 	 * 名前で検索する。
@@ -23,7 +23,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param kana 名前 (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByNameContaining(String kana);
+	Iterable<Idol> findByNameContainingOrderByKana(String kana);
 
 	/**
 	 * かなで検索する。
@@ -31,7 +31,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param kana かな (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByKanaContaining(String kana);
+	Iterable<Idol> findByKanaContainingOrderByKana(String kana);
 
 	/**
 	 * タイプと名前で検索する。
@@ -40,7 +40,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param kana 名前 (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByTypeAndNameContaining(String type, String kana);
+	Iterable<Idol> findByTypeAndNameContainingOrderByKana(String type, String kana);
 
 	/**
 	 * タイプとかなで検索する。
@@ -49,5 +49,5 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param kana かな (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByTypeAndKanaContaining(String type, String kana);
+	Iterable<Idol> findByTypeAndKanaContainingOrderByKana(String type, String kana);
 }
