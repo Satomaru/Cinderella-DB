@@ -13,51 +13,53 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import jp.satomaru.cinderella.entity.Idol;
-import jp.satomaru.cinderella.repository.IdolsRepository;
-import jp.satomaru.cinderella.service.IdolsService;
+import jp.satomaru.cinderella.entity.Music;
+import jp.satomaru.cinderella.repository.MusicsRepository;
+import jp.satomaru.cinderella.service.MusicsService;
 
 /**
- * アイドルAPIコントローラ。
+ * 楽曲APIコントローラ。
  */
 @RestController
-@RequestMapping(path = "/api/idols")
-public class IdolsApiController {
+@RequestMapping(path = "/api/musics")
+public class MusicsApiController {
 
-	@Autowired private IdolsRepository idolsRepository;
-	@Autowired private IdolsService idolsService;
+	@Autowired private MusicsRepository musicsRepository;
+	@Autowired private MusicsService musicsService;
 
 	/**
-	 * アイドル一覧を取得する。
+	 * 楽曲一覧を取得する。
 	 * 
 	 * @param target 検索対象 (name/kana)
 	 * @param match 検索文字列 (省略可)
-	 * @param type タイプ (Cu/Pa/Co、省略可)
-	 * @return アイドル一覧
+	 * @param original カバーを除く場合は "1"
+	 * @return 楽曲一覧
 	 */
 	@GetMapping(path = "/")
-	public @ResponseBody Iterable<Idol> getIdols(
+	public @ResponseBody Iterable<Music> getMusics(
 			@RequestParam String target,
 			@RequestParam @Nullable String match,
-			@RequestParam @Nullable String type) {
+			@RequestParam @Nullable String original) {
+
+		boolean withoutCover = "1".equals(original);
 
 		switch (target) {
-			case "name": return idolsService.findByName(match, type);
-			case "kana": return idolsService.findByKana(match, type);
+			case "name": return musicsService.findByName(match, withoutCover);
+			case "kana": return musicsService.findByKana(match, withoutCover);
 			default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	/**
-	 * アイドルを取得する。
+	 * 楽曲を取得する。
 	 * 
 	 * @param id ID
-	 * @return アイドル
+	 * @return 楽曲
 	 */
 	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Idol> getIdol(
+	public @ResponseBody Optional<Music> getMusic(
 			@PathVariable Integer id) {
 
-		return idolsRepository.findById(id);
+		return musicsRepository.findById(id);
 	}
 }

@@ -12,16 +12,20 @@
 		<title>Tracks - Cinderella DB</title>
 
 		<style>
-			button[class^="btn type-"] {
+			#idolsTable .btn {
 				width: 12em;
+			}
+
+			#musicsTable .btn {
+				width: 23em;
 			}
 		</style>
 
 		<script>
 			function showTable(button) {
-				document.getElementById("idolsTable").style.display = (button.id === "navIdolsTab") ? "table" : "none";
-				document.getElementById("songsTable").style.display = (button.id === "navSongsTab") ? "table" : "none";
-				document.getElementById("discsTable").style.display = (button.id === "navDiscsTab") ? "table" : "none";
+				document.getElementById("idolsTable").style.display  = (button.id === "navIdolsTab")  ? "table" : "none";
+				document.getElementById("musicsTable").style.display = (button.id === "navMusicsTab") ? "table" : "none";
+				document.getElementById("discsTable").style.display  = (button.id === "navDiscsTab")  ? "table" : "none";
 			}
 
 			function searchIdols() {
@@ -71,6 +75,62 @@
 						alert(error);
 					});
 			}
+
+			function searchMusics() {
+				const form = document.getElementById("musicsForm");
+				const target = encodeURI(form.target.value);
+				const match = encodeURI(form.match.value);
+				const original = form.original.checked ? encodeURI(form.original.value) : "";
+				const table = document.getElementById("musicsTable");
+				const tbody = table.getElementsByTagName("tbody")[0];
+
+				fetch(`api/musics/?target=${target}&match=${match}&original=${original}`)
+					.then(function(response){
+						if (response.status !== 200) {
+							throw `検索に失敗しました。(${response.status})`;
+						}
+
+						return response.text();
+					})
+					.then(function(text) {
+						tbody.innerText = null;
+
+						JSON.parse(text).forEach(function(row) {
+							const buttonName = document.createElement("button");
+							const tdName = document.createElement("td");
+							const tdKana = document.createElement("td");
+							const tdLyrics = document.createElement("td");
+							const tdCompose = document.createElement("td");
+							const tdCover = document.createElement("td");
+							const tr = document.createElement("tr");
+
+							buttonName.type = "button";
+							buttonName.className = "btn type-Non";
+							buttonName.innerText = row.name;
+
+							tdName.appendChild(buttonName);
+							tdKana.innerText = row.kana;
+							tdLyrics.innerText = row.lyrics;
+							tdCompose.innerText = row.compose;
+
+							if (row.cover) {
+								const coverIcon = document.createElement("i");
+								coverIcon.className = "bi bi-chat-square-quote";
+								tdCover.appendChild(coverIcon);
+							}
+
+							tr.appendChild(tdName);
+							tr.appendChild(tdKana);
+							tr.appendChild(tdLyrics);
+							tr.appendChild(tdCompose);
+							tr.appendChild(tdCover);
+							tbody.appendChild(tr);
+						});
+					})
+					.catch(function(error) {
+						alert(error);
+					});
+			}
 		</script>
 	</head>
 
@@ -99,17 +159,17 @@
 							role="tab"
 							aria-controls="idolsForm"
 							aria-selected="true"
-							onclick="showTable(this);"><i class="bi bi-person-circle"></i> By Idol</button>
+							onclick="showTable(this);"><i class="bi bi-person-square"></i> By Idol</button>
 
-						<button id="navSongsTab"
+						<button id="navMusicsTab"
 							class="nav-link"
 							data-bs-toggle="tab"
-							data-bs-target="#songsForm"
+							data-bs-target="#musicsForm"
 							type="button"
 							role="tab"
-							aria-controls="songsForm"
+							aria-controls="musicsForm"
 							aria-selected="false"
-							onclick="showTable(this);"><i class="bi bi-music-note-list"></i> By Song</button>
+							onclick="showTable(this);"><i class="bi bi-music-note"></i> By Music</button>
 
 						<button id="navDiscsTab"
 							class="nav-link"
@@ -145,20 +205,16 @@
 							</div>
 							<div class="col-auto">
 								<div class="form-check form-check-inline">
-									<input id="typeAll" name="type" type="radio" value="" class="form-check-input" checked>
-									<label class="form-check-label" for="typeAll">All</label>
+									<label class="form-check-label"><input name="type" type="radio" value="" class="form-check-input" checked> All</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input id="typeCu" name="type" type="radio" value="Cu" class="form-check-input">
-									<label class="form-check-label" for="typeCu">Cu</label>
+									<label class="form-check-label"><input name="type" type="radio" value="Cu" class="form-check-input"> Cu</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input id="typePa" name="type" type="radio" value="Pa" class="form-check-input">
-									<label class="form-check-label" for="typePa">Pa</label>
+									<label class="form-check-label"><input name="type" type="radio" value="Pa" class="form-check-input"> Pa</label>
 								</div>
 								<div class="form-check form-check-inline">
-									<input id="typeCo" name="type" type="radio" value="Co" class="form-check-input">
-									<label class="form-check-label" for="typeCo">Co</label>
+									<label class="form-check-label"><input name="type" type="radio" value="Co" class="form-check-input"> Co</label>
 								</div>
 							</div>
 							<div class="col" style="text-align: right;">
@@ -167,10 +223,10 @@
 						</div>
 					</form>
 
-					<form id="songsForm"
+					<form id="musicsForm"
 						class="tab-pane h-100 p-2 mb-2 bg-light border rounded-bottom"
 						role="tabpanel"
-						aria-labelledby="navSongsTab"
+						aria-labelledby="navMusicsTab"
 						onsubmit="return false;">
 
 						<div class="row align-items-center">
@@ -183,8 +239,11 @@
 							<div class="col-auto">
 								<input name="match" type="text" class="form-control" autofocus>
 							</div>
+							<div class="col-auto">
+								<label><input name="original" type="checkbox" value="1" class="form-check-input"> カバーを除く</label>
+							</div>
 							<div class="col" style="text-align: right;">
-								<button type="button" class="btn btn-primary">検索</button>
+								<button type="button" class="btn btn-primary" onclick="searchMusics();">検索</button>
 							</div>
 						</div>
 					</form>
@@ -228,11 +287,14 @@
 				</tbody>
 			</table>
 
-			<table id="songsTable" class="table" style="display: none;">
+			<table id="musicsTable" class="table" style="display: none;">
 				<thead>
 					<tr>
 						<th scope="col">名前</th>
 						<th scope="col">かな</th>
+						<th scope="col">作詞</th>
+						<th scope="col">作曲</th>
+						<th scope="col" style="white-space:nowrap">カバー</th>
 					</tr>
 				</thead>
 				<tbody>

@@ -10,20 +10,12 @@ import jp.satomaru.cinderella.entity.Idol;
 public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 
 	/**
-	 * タイプで検索する。
-	 * 
-	 * @param type タイプ (Cu/Pa/Co)
-	 * @return アイドル一覧
-	 */
-	Iterable<Idol> findByTypeOrderByKana(String type);
-
-	/**
 	 * 名前で検索する。
 	 * 
-	 * @param kana 名前 (部分一致)
+	 * @param name 名前 (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByNameContainingOrderByKana(String kana);
+	Iterable<Idol> findByNameContainingOrderByKana(String name);
 
 	/**
 	 * かなで検索する。
@@ -34,20 +26,28 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	Iterable<Idol> findByKanaContainingOrderByKana(String kana);
 
 	/**
-	 * タイプと名前で検索する。
+	 * タイプで検索する。
 	 * 
 	 * @param type タイプ (Cu/Pa/Co)
-	 * @param kana 名前 (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByTypeAndNameContainingOrderByKana(String type, String kana);
+	Iterable<Idol> findByTypeOrderByKana(String type);
 
 	/**
-	 * タイプとかなで検索する。
+	 * 名前とタイプで検索する。
 	 * 
+	 * @param name 名前 (部分一致)
 	 * @param type タイプ (Cu/Pa/Co)
-	 * @param kana かな (部分一致)
 	 * @return アイドル一覧
 	 */
-	Iterable<Idol> findByTypeAndKanaContainingOrderByKana(String type, String kana);
+	Iterable<Idol> findByNameContainingAndTypeOrderByKana(String name, String type);
+
+	/**
+	 * かなとタイプで検索する。
+	 * 
+	 * @param kana かな (部分一致)
+	 * @param type タイプ (Cu/Pa/Co)
+	 * @return アイドル一覧
+	 */
+	Iterable<Idol> findByKanaContainingAndTypeOrderByKana(String kana, String type);
 }

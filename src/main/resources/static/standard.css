@@ -55,3 +55,7 @@ button.type-Pa, button.type-Pa:hover {
 button.type-Co, button.type-Co:hover {
 	background-color: #44f;
 }
+
+button.type-Non, button.type-Non:hover {
+	background-color: #888;
+}
