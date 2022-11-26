@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Music;
-import jp.satomaru.cinderella.repository.MusicsRepository;
 import jp.satomaru.cinderella.service.MusicsService;
 
 /**
@@ -24,13 +23,25 @@ import jp.satomaru.cinderella.service.MusicsService;
 @RequestMapping(path = "/api/musics")
 public class MusicsApiController {
 
-	@Autowired private MusicsRepository musicsRepository;
 	@Autowired private MusicsService musicsService;
+
+	/**
+	 * 楽曲を取得する。
+	 * 
+	 * @param id ID
+	 * @return 楽曲
+	 */
+	@GetMapping(path = "/{id}")
+	public @ResponseBody Optional<Music> getMusic(
+			@PathVariable Integer id) {
+
+		return musicsService.get(id);
+	}
 
 	/**
 	 * 楽曲一覧を取得する。
 	 * 
-	 * @param target 検索対象 (name/kana)
+	 * @param target 検索対象 (name/kana/lyrics/compose)
 	 * @param match 検索文字列 (省略可)
 	 * @param original カバーを除く場合は "1"
 	 * @return 楽曲一覧
@@ -44,22 +55,11 @@ public class MusicsApiController {
 		boolean withoutCover = "1".equals(original);
 
 		switch (target) {
-			case "name": return musicsService.findByName(match, withoutCover);
-			case "kana": return musicsService.findByKana(match, withoutCover);
+			case "name":    return musicsService.findByName(match, withoutCover);
+			case "kana":    return musicsService.findByKana(match, withoutCover);
+			case "lyrics":  return musicsService.findByLyrics(match, withoutCover);
+			case "compose": return musicsService.findByCompose(match, withoutCover);
 			default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	/**
-	 * 楽曲を取得する。
-	 * 
-	 * @param id ID
-	 * @return 楽曲
-	 */
-	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Music> getMusic(
-			@PathVariable Integer id) {
-
-		return musicsRepository.findById(id);
 	}
 }

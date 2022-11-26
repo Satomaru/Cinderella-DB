@@ -1,5 +1,7 @@
 package jp.satomaru.cinderella.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,16 @@ import jp.satomaru.cinderella.repository.IdolsRepository;
 public class IdolsService {
 
 	@Autowired private IdolsRepository idolsRepository;
+
+	/**
+	 * アイドルを取得する。
+	 * 
+	 * @param id ID
+	 * @return アイドル
+	 */
+	public Optional<Idol> get(Integer id) {
+		return idolsRepository.findById(id);
+	}
 
 	/**
 	 * 名前で検索する。

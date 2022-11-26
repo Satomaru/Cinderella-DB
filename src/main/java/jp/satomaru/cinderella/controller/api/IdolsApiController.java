@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Idol;
-import jp.satomaru.cinderella.repository.IdolsRepository;
 import jp.satomaru.cinderella.service.IdolsService;
 
 /**
@@ -24,8 +23,20 @@ import jp.satomaru.cinderella.service.IdolsService;
 @RequestMapping(path = "/api/idols")
 public class IdolsApiController {
 
-	@Autowired private IdolsRepository idolsRepository;
 	@Autowired private IdolsService idolsService;
+
+	/**
+	 * アイドルを取得する。
+	 * 
+	 * @param id ID
+	 * @return アイドル
+	 */
+	@GetMapping(path = "/{id}")
+	public @ResponseBody Optional<Idol> getIdol(
+			@PathVariable Integer id) {
+
+		return idolsService.get(id);
+	}
 
 	/**
 	 * アイドル一覧を取得する。
@@ -46,18 +57,5 @@ public class IdolsApiController {
 			case "kana": return idolsService.findByKana(match, type);
 			default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	/**
-	 * アイドルを取得する。
-	 * 
-	 * @param id ID
-	 * @return アイドル
-	 */
-	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Idol> getIdol(
-			@PathVariable Integer id) {
-
-		return idolsRepository.findById(id);
 	}
 }

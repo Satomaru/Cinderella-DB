@@ -26,6 +26,22 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	Iterable<Music> findByKanaContainingOrderByKana(String kana);
 
 	/**
+	 * 作詞で検索する。
+	 * 
+	 * @param lyrics 作詞 (部分一致)
+	 * @return 楽曲一覧
+	 */
+	Iterable<Music> findByLyricsContainingOrderByKana(String lyrics);
+
+	/**
+	 * 作曲で検索する。
+	 * 
+	 * @param compose 作曲 (部分一致)
+	 * @return 楽曲一覧
+	 */
+	Iterable<Music> findByComposeContainingOrderByKana(String compose);
+
+	/**
 	 * カバーで検索する。
 	 * 
 	 * @param cover カバー
@@ -50,4 +66,22 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @return 楽曲一覧
 	 */
 	Iterable<Music> findByKanaContainingAndCoverOrderByKana(String kana, Boolean cover);
+
+	/**
+	 * 作詞とカバーで検索する。
+	 * 
+	 * @param lyrics 作詞 (部分一致)
+	 * @param cover カバー
+	 * @return 楽曲一覧
+	 */
+	Iterable<Music> findByLyricsContainingAndCoverOrderByKana(String lyrics, Boolean cover);
+
+	/**
+	 * 作曲とカバーで検索する。
+	 * 
+	 * @param compose 作曲 (部分一致)
+	 * @param cover カバー
+	 * @return 楽曲一覧
+	 */
+	Iterable<Music> findByComposeContainingAndCoverOrderByKana(String compose, Boolean cover);
 }

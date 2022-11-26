@@ -86,12 +86,14 @@
 			<div class="container">
 				<h1 class="fs-3" th:text="${pageTitle}">title</h1>
 
-				<form class="h-100 p-2 mb-2 bg-light border rounded-bottom" onsubmit="search(this, event)">
+				<form class="h-100 mb-2 p-2 bg-light border rounded-bottom" onsubmit="search(this, event)">
 					<div class="row align-items-center">
 						<div class="col-auto pe-1">
 							<select name="target" class="form-select">
 								<option value="name" selected>名前</option>
 								<option value="kana">かな</option>
+								<option value="lyrics">作詞</option>
+								<option value="compose">作曲</option>
 							</select>
 						</div>
 
