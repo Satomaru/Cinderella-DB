@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="../../static/standard.css" th:href="@{/standard.css}">
+		<title th:text="|${pageTitle} - #{application.title}|">title</title>
+
+		<style>
+			button.type-Cu {
+				background-color: #f6f;
+			}
+
+			button.type-Pa {
+				background-color: #ffc830;
+			}
+			
+			button.type-Co {
+				background-color: #44f;
+			}
+		</style>
+
+		<script>
+			function search(form, event) {
+				event.preventDefault();
+
+				const target = encodeURI(form.target.value);
+				const match = encodeURI(form.match.value);
+				const type = encodeURI(form.type.value);
+				const sheet = document.getElementById("targetsSheet");
+				const table = sheet.getElementsByTagName("table")[0];
+				const tbody = table.getElementsByTagName("tbody")[0];
+				const url = `../api/idols/?target=${target}&match=${match}&type=${type}`;
+
+				fetch(url)
+					.then(function(response){
+						if (response.status !== 200) {
+							throw `検索に失敗しました。(${response.status})`;
+						}
+
+						return response.text();
+					})
+					.then(function(text) {
+						tbody.innerText = null;
+
+						JSON.parse(text).forEach(function(row) {
+							const buttonName = document.createElement("button");
+							const tdName = document.createElement("td");
+							const tdKana = document.createElement("td");
+							const tdBirth = document.createElement("td");
+							const tdCv = document.createElement("td");
+							const tr = document.createElement("tr");
+
+							buttonName.type = "button";
+							buttonName.className = `type-${row.type} w-100 border rounded text-white`;
+							buttonName.innerText = row.name;
+
+							tdName.appendChild(buttonName);
+							tdKana.innerText = row.kana;
+							tdBirth.innerText = row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4);
+							tdCv.innerText = row.cv;
+
+							tr.appendChild(tdName);
+							tr.appendChild(tdKana);
+							tr.appendChild(tdBirth);
+							tr.appendChild(tdCv);
+							tbody.appendChild(tr);
+						});
+
+						document.getElementById("targetsTab").click();
+					})
+					.catch(function(error) {
+						alert(error);
+					});
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="sticky-top m-0 p-0 bg-white">
+			<nav th:replace="index :: header-nav"></nav>
+
+			<div class="container">
+				<h1 class="fs-3" th:text="${pageTitle}">title</h1>
+
+				<form class="h-100 p-2 mb-2 bg-light border rounded-bottom" onsubmit="search(this, event)">
+					<div class="row align-items-center">
+						<div class="col-auto pe-1">
+							<select name="target" class="form-select">
+								<option value="name" selected>名前</option>
+								<option value="kana">かな</option>
+							</select>
+						</div>
+
+						<div class="col-auto ps-1">
+							<input name="match" type="text" class="form-control" autofocus>
+						</div>
+
+						<div class="col-auto">
+							タイプ
+						</div>
+
+						<div class="col-auto">
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input name="type" type="radio" value="" class="form-check-input" checked> All
+								</label>
+							</div>
+
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input name="type" type="radio" value="Cu" class="form-check-input"> Cu
+								</label>
+							</div>
+
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input name="type" type="radio" value="Pa" class="form-check-input"> Pa
+								</label>
+							</div>
+
+							<div class="form-check form-check-inline">
+								<label class="form-check-label">
+									<input name="type" type="radio" value="Co" class="form-check-input"> Co
+								</label>
+							</div>
+						</div>
+
+						<div class="col text-end">
+							<button type="submit" class="btn btn-primary">検索</button>
+						</div>
+					</div>
+				</form>
+
+				<nav>
+					<div class="nav nav-tabs" role="tablist">
+						<button id="targetsTab"
+							class="nav-link active"
+							data-bs-toggle="tab"
+							data-bs-target="#targetsSheet"
+							type="button"
+							role="tab"
+							aria-controls="targetsSheet"
+							aria-selected="true">Idols</button>
+
+						<button id="resultsTab"
+							class="nav-link"
+							data-bs-toggle="tab"
+							data-bs-target="#resultsSheet"
+							type="button"
+							role="tab"
+							aria-controls="resultsSheet"
+							aria-selected="false">Tracks</button>
+					</div>
+				</nav>
+			</div>
+		</header>
+
+		<main class="container mb-5">
+			<div class="tab-content border border-top-0 rounded-bottom p-2" style="min-height: 30vh;">
+				<div id="targetsSheet"
+					class="tab-pane show active h-100"
+					role="tabpanel"
+					aria-labelledby="targetsTab">
+	
+					<table class="table w-auto">
+						<thead>
+							<tr>
+								<th scope="col" style="min-width: 14em;">名前</th>
+								<th scope="col" style="min-width: 14em;">かな</th>
+								<th scope="col" style="min-width: 4em;">誕生日</th>
+								<th scope="col" style="min-width: 14em;">CV</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+
+				<div id="resultsSheet"
+					class="tab-pane h-100"
+					role="tabpanel"
+					aria-labelledby="resultsTab">
+	
+					<table id="resultsSheet" class="table">
+						<thead>
+							<tr>
+								<th scope="col">ディスク</th>
+								<th scope="col">トラック</th>
+								<th scope="col">タイトル</th>
+								<th scope="col">アイドル</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</main>
+
+		<footer th:replace="index :: footer"></footer>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	</body>
+</html>

@@ -2,6 +2,8 @@
 
 アイドルマスターシンデレラガールズのデータベースを作りたいなあ (願望)
 
+まだまだ、絶賛工事中です。
+
 ## 開発環境
 
 Pleiades All in One Eclipse<br>
@@ -18,13 +20,3 @@ MySQLは公開していませんので、動かしてみたい人は、自力で
 `src/main/resources/application.properties` を修正してください。
 
 スキーマ定義はWikiを、テストデータはmiscディレクトリを参照してください。
-
-## 現在の状況
-
-PCにPleiadesとMySQLをインストールした。
-
-Spring Bootの勉強を始める。(そこからかよw)
-
-音源検索に、アイドル検索と楽曲検索を実装
-
-    http://localhost:8080/cinderella/tracks

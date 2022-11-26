@@ -8,54 +8,6 @@ td {
 	vertical-align: middle;
 }
 
-#pageHeader {
-	margin: 0;
-	padding: 0;
-	background-color: #fff;
-}
-
-#pageHeader .navbar {
-	margin: 0 0 8px 0;
-	background: linear-gradient(#fff, #444 20%, #000);
-}
-
-#pageHeader .navbar .nav-link {
-	padding: 0 12px;
-}
-
-#pageHeader .navbar .active {
-	text-decoration: underline;
-}
-
-#pageContent {
-	margin-bottom: 48px;
-}
-
-#pageFooter {
-	padding: 4px 2em;
-	color: #ccc;
-	background: linear-gradient(#fff, #444 20%, #000);
-	text-align: right;
-}
-
-button[class^="btn type-"], button[class^="btn type-"]:hover {
-	color: #fff;
-	box-shadow: none !important;
-	font-weight: bold;
-}
-
-button.type-Cu, button.type-Cu:hover {
-	background-color: #f6f;
-}
-
-button.type-Pa, button.type-Pa:hover {
-	background-color: #ffc830;
-}
-
-button.type-Co, button.type-Co:hover {
-	background-color: #44f;
-}
-
-button.type-Non, button.type-Non:hover {
-	background-color: #888;
+p {
+	margin: 1em;
 }
