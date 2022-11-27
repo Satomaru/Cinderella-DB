@@ -19,12 +19,14 @@ public class HeaderNavController {
 	@GetMapping("/tracks/by-idol")
 	public String showTracksByIdol(Model model) {
 		model.addAttribute("pageTitle", "Find Tracks by Idol");
+		model.addAttribute("targetsName", "Idols");
 		return "tracks/by-idol";
 	}
 
 	@GetMapping("/tracks/by-music")
 	public String showTracksByMusic(Model model) {
 		model.addAttribute("pageTitle", "Find Tracks by Music");
+		model.addAttribute("targetsName", "Musics");
 		return "tracks/by-music";
 	}
 }
