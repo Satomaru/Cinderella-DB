@@ -16,7 +16,7 @@
 		</style>
 
 		<script type="module">
-			import {Tag} from "[[@{/js/classes/tag.js}]]";
+			import {Tag, TagLoader} from "[[@{/js/classes/tag.js}]]";
 
 			const searchForm = Tag.find("searchForm");
 			const discList = Tag.find("discList");
@@ -53,13 +53,12 @@
 					.then(json => {
 						discList.clear();
 	
-						json.forEach(row => {
-							const tr = Tag.newTr();
-							Tag.newTd().append(formatName(row)).into(tr);
-							Tag.newTd().append(row.label).into(tr);
-							Tag.newTd().append(formatCode(row)).into(tr);
-							discList.append(tr);
-						});
+						json.forEach(row => TagLoader.newTr()
+							.load(formatName(row))
+							.load(row.label)
+							.load(formatCode(row))
+							.into(discList)
+						);
 					}).catch(error => alert(error));
 			});
 		</script>

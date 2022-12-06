@@ -45,6 +45,36 @@ export class Tag {
 	}
 
 	/**
+	 * オーダーリストタグを作成する。
+	 *
+	 * @param {string} classes - クラス名
+	 * @returns {Tag}
+	 */
+	static newOl(...classes) {
+		return Tag.create("ol", ...classes);
+	}
+
+	/**
+	 * アンオーダーリストタグを作成する。
+	 *
+	 * @param {string} classes - クラス名
+	 * @returns {Tag}
+	 */
+	static newUl(...classes) {
+		return Tag.create("ul", ...classes);
+	}
+
+	/**
+	 * リストアイテムタグを作成する。
+	 *
+	 * @param {string} classes - クラス名
+	 * @returns {Tag}
+	 */
+	static newLi(...classes) {
+		return Tag.create("li", ...classes);
+	}
+
+	/**
 	 * スパンタグを作成する。
 	 *
 	 * @param {string} classes - クラス名
@@ -119,6 +149,11 @@ export class Tag {
 		return new Tag(tagOrElement);
 	}
 
+	/**
+	 * HTML要素
+	 *
+	 * @type {HTMLElement}
+	 */
 	#element;
 
 	/**
@@ -137,7 +172,7 @@ export class Tag {
 	/**
 	 * HTML要素。
 	 *
-	 * @returns {HTMLElement}
+	 * @type {HTMLElement}
 	 */
 	get element() {
 		return this.#element;
@@ -146,7 +181,7 @@ export class Tag {
 	/**
 	 * タグ名。
 	 *
-	 * @returns {string}
+	 * @type {string}
 	 */
 	get tag() {
 		return this.element.tagName;
@@ -155,7 +190,7 @@ export class Tag {
 	/**
 	 * id属性値。
 	 *
-	 * @returns {string}
+	 * @type {string}
 	 */
 	get id() {
 		return this.element.id;
@@ -164,7 +199,7 @@ export class Tag {
 	/**
 	 * name属性値。
 	 *
-	 * @returns {string}
+	 * @type {string}
 	 */
 	get name() {
 		return this.element.name;
@@ -173,7 +208,7 @@ export class Tag {
 	/**
 	 * value属性値。
 	 *
-	 * @returns {string}
+	 * @type {string}
 	 */
 	get value() {
 		return this.element.value;
@@ -182,7 +217,7 @@ export class Tag {
 	/**
 	 * type属性値。
 	 *
-	 * @returns {string}
+	 * @type {string}
 	 */
 	get type() {
 		return this.element.type;
@@ -191,7 +226,7 @@ export class Tag {
 	/**
 	 * フォーム要素である場合はtrue。
 	 *
-	 * @returns {boolean}
+	 * @type {boolean}
 	 */
 	get formItem() {
 		return ["INPUT", "SELECT", "TEXTAREA"].includes(this.tag);
@@ -200,7 +235,7 @@ export class Tag {
 	/**
 	 * フォーム要素、かつチェック項目 (チェックボックス / ラジオボタン) である場合はtrue。
 	 *
-	 * @returns {boolean}
+	 * @type {boolean}
 	 */
 	get checkable() {
 		return this.tag === "INPUT" && ["checkbox", "radio"].includes(this.type);
@@ -209,7 +244,7 @@ export class Tag {
 	/**
 	 * フォーム要素、かつ現在クエリパラメータとして有効である場合はtrue。
 	 *
-	 * @returns {boolean}
+	 * @type {boolean}
 	 */
 	get queriable() {
 		if (!this.formItem) {
@@ -279,7 +314,7 @@ export class Tag {
 	}
 
 	/**
-	 * このタグを、引数で指定された要素の子要素に追加する。
+	 * 引数で指定された要素に、子要素としてこのタグを追加する。
 	 *
 	 * @param {(Tag | HTMLElement)} tagOrElement - タグ、またはHTML要素
 	 * @returns {Tag}
@@ -315,5 +350,95 @@ export class Tag {
 			.forEach(tag => parameters.accept(tag));
 
 		return parameters;
+	}
+}
+
+/** 同じタグ名の子要素を、繰り返し装填する。 */
+export class TagLoader {
+
+	/**
+	 * TRタグを作成して、繰り返しTDタグを装填する。
+	 *
+	 * @param {string} classes - TDタグのクラス名
+	 * @returns {TagLoader}
+	 */
+	static newTr(...classes) {
+		return new TagLoader(Tag.newTr(), () => Tag.newTd(...classes));
+	}
+
+	/**
+	 * OLタグを作成して、繰り返しLIタグを装填する。
+	 *
+	 * @param {string} classes - LIタグのクラス名
+	 * @returns {TagLoader}
+	 */
+	static newOl(...classes) {
+		return new TagLoader(Tag.newOl(), () => Tag.newLi(...classes));
+	}
+
+	/**
+	 * ULタグを作成して、繰り返しLIタグを装填する。
+	 *
+	 * @param {string} classes - LIタグのクラス名
+	 * @returns {TagLoader}
+	 */
+	static newUl(...liClasses) {
+		return new TagLoader(Tag.newUl(), () => Tag.newLi(...liClasses));
+	}
+
+	/**
+	 * 子要素を装填するタグ。
+	 *
+	 * @type {Tag}
+	 */
+	#self;
+
+	/**
+	 * 子要素を生成する関数。
+	 *
+	 * @type {() => Tag}
+	 */
+	#generator;
+
+	/**
+	 * タグローダーを作成する。
+	 *
+	 * @param {Tag} self            - 子要素を装填するタグ
+	 * @param {() => Tag} generator - 子要素を生成する関数
+	 */
+	constructor(self, generator) {
+		this.#self = self;
+		this.#generator = generator;
+	}
+
+	/**
+	 * 子要素を装填するタグ。
+	 *
+	 * @type {Tag}
+	 */
+	get self() {
+		return this.#self;
+	}
+
+	/**
+	 * 子要素を装填する。
+	 *
+	 * @param {(string | Tag | HTMLElement | null)} content - 装填する子要素の内容
+	 * @returns {TagLoader}
+	 */
+	load(content) {
+		this.#generator().append(content).into(this.self);
+		return this;
+	}
+
+	/**
+	 * 引数で指定された要素に、子要素としてこのタグを追加する。
+	 *
+	 * @param {(Tag | HTMLElement)} parent - タグ、またはHTML要素
+	 * @returns {TagLoader}
+	 */
+	into(parent) {
+		this.self.into(parent);
+		return this;
 	}
 }

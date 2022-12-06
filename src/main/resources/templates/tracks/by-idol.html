@@ -24,7 +24,7 @@
 		</style>
 
 		<script type="module">
-			import {Tag} from "[[@{/js/classes/tag.js}]]";
+			import {Tag, TagLoader} from "[[@{/js/classes/tag.js}]]";
 
 			const searchForm = Tag.find("searchForm");
 			const idolList = Tag.find("idolList");
@@ -49,14 +49,13 @@
 					.then(json => {
 						idolList.clear();
 
-						json.forEach(row => {
-							const tr = Tag.newTr();
-							Tag.newTd().append(formatName(row)).into(tr);
-							Tag.newTd().append(row.kana).into(tr);
-							Tag.newTd().append(formatBirth(row)).into(tr);
-							Tag.newTd().append(row.cv).into(tr);
-							idolList.append(tr);
-						});
+						json.forEach(row => TagLoader.newTr()
+							.load(formatName(row))
+							.load(row.kana)
+							.load(formatBirth(row))
+							.load(row.cv)
+							.into(idolList)
+						);
 
 						targetsTab.element.click();
 					})

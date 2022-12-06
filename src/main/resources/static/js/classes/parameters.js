@@ -3,6 +3,9 @@ import {Tag} from "./tag.js";
 /** パラメータ。 */
 export class Parameters {
 
+	/**
+	 * プロパティ。
+	 */
 	#properties = {};
 
 	/**
