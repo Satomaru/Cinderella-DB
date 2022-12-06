@@ -15,71 +15,52 @@
 			}
 		</style>
 
-		<script>
-			function search(form, event) {
+		<script type="module">
+			import {Tag} from "[[@{/js/classes/tag.js}]]";
+
+			const searchForm = Tag.find("searchForm");
+			const musicList = Tag.find("musicList");
+			const targetsTab = Tag.find("targetsTab");
+
+			const formatName = row => Tag.newButton(`music w-100 border rounded text-white`).append(row.name);
+			const formatCover = row => row.cover ? Tag.newIcon("bi-chat-square-quote") : null;
+
+			searchForm.listen("submit", event => {
 				event.preventDefault();
+				const parameters = searchForm.extractParameters();
+				const query = parameters.createQuery();
 
-				const target = encodeURI(form.target.value);
-				const match = encodeURI(form.match.value);
-				const original = form.original.checked ? encodeURI(form.original.value) : "";
-				const tbody = document.getElementById("musicList");
-				const url = `../api/musics/?target=${target}&match=${match}&original=${original}`;
-
-				fetch(url)
-					.then(function(response){
+				fetch(`[[@{/api/musics/}]]?${query}`)
+					.then(response => {
 						if (response.status !== 200) {
 							throw `検索に失敗しました。(${response.status})`;
 						}
 
-						return response.text();
+						return response.json();
 					})
-					.then(function(text) {
-						tbody.innerText = null;
+					.then(json => {
+						musicList.clear();
 
-						JSON.parse(text).forEach(function(row) {
-							const buttonName = document.createElement("button");
-							const tdName = document.createElement("td");
-							const tdKana = document.createElement("td");
-							const tdLyrics = document.createElement("td");
-							const tdCompose = document.createElement("td");
-							const tdCover = document.createElement("td");
-							const tr = document.createElement("tr");
-
-							buttonName.type = "button";
-							buttonName.className = `music w-100 border rounded text-white`;
-							buttonName.innerText = row.name;
-
-							tdName.appendChild(buttonName);
-							tdKana.innerText = row.kana;
-							tdLyrics.innerText = row.lyrics;
-							tdCompose.innerText = row.compose;
-
-							if (row.cover) {
-								const coverIcon = document.createElement("i");
-								coverIcon.className = "bi bi-chat-square-quote";
-								tdCover.appendChild(coverIcon);
-							}
-
-							tr.appendChild(tdName);
-							tr.appendChild(tdKana);
-							tr.appendChild(tdLyrics);
-							tr.appendChild(tdCompose);
-							tr.appendChild(tdCover);
-							tbody.appendChild(tr);
+						json.forEach(row => {
+							const tr = Tag.newTr();
+							Tag.newTd().append(formatName(row)).into(tr);
+							Tag.newTd().append(row.kana).into(tr);
+							Tag.newTd().append(row.lyrics).into(tr);
+							Tag.newTd().append(row.compose).into(tr);
+							Tag.newTd().append(formatCover(row)).into(tr);
+							musicList.append(tr)
 						});
 
-						document.getElementById("targetsTab").click();
+						targetsTab.element.click();
 					})
-					.catch(function(error) {
-						alert(error);
-					});
-			}
+					.catch(error => alert(error));
+			});
 		</script>
 	</head>
 
 	<body>
 		<header th:replace="tracks/common :: header(~{::form})" class="container">
-			<form class="h-100 mb-2 p-2 bg-light border rounded-bottom" onsubmit="search(this, event)">
+			<form id="searchForm" class="h-100 mb-2 p-2 bg-light border rounded-bottom">
 				<div class="row align-items-center">
 					<div class="col-auto pe-1">
 						<select name="target" class="form-select">

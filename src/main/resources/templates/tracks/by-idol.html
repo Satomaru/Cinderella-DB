@@ -23,63 +23,51 @@
 			}
 		</style>
 
-		<script>
-			function search(form, event) {
+		<script type="module">
+			import {Tag} from "[[@{/js/classes/tag.js}]]";
+
+			const searchForm = Tag.find("searchForm");
+			const idolList = Tag.find("idolList");
+			const targetsTab = Tag.find("targetsTab");
+
+			const formatName = row => Tag.newButton(`type-${row.type} w-100 border rounded text-white`).append(row.name);
+			const formatBirth = row => row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4);
+
+			searchForm.listen("submit", event => {
 				event.preventDefault();
+				const parameters = searchForm.extractParameters();
+				const query = parameters.createQuery();
 
-				const target = encodeURI(form.target.value);
-				const match = encodeURI(form.match.value);
-				const type = encodeURI(form.type.value);
-				const tbody = document.getElementById("idolList");
-				const url = `../api/idols/?target=${target}&match=${match}&type=${type}`;
-
-				fetch(url)
-					.then(function(response){
+				fetch(`[[@{/api/idols/}]]?${query}`)
+					.then(response => {
 						if (response.status !== 200) {
 							throw `検索に失敗しました。(${response.status})`;
 						}
 
-						return response.text();
+						return response.json();
 					})
-					.then(function(text) {
-						tbody.innerText = null;
+					.then(json => {
+						idolList.clear();
 
-						JSON.parse(text).forEach(function(row) {
-							const buttonName = document.createElement("button");
-							const tdName = document.createElement("td");
-							const tdKana = document.createElement("td");
-							const tdBirth = document.createElement("td");
-							const tdCv = document.createElement("td");
-							const tr = document.createElement("tr");
-
-							buttonName.type = "button";
-							buttonName.className = `type-${row.type} w-100 border rounded text-white`;
-							buttonName.innerText = row.name;
-
-							tdName.appendChild(buttonName);
-							tdKana.innerText = row.kana;
-							tdBirth.innerText = row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4);
-							tdCv.innerText = row.cv;
-
-							tr.appendChild(tdName);
-							tr.appendChild(tdKana);
-							tr.appendChild(tdBirth);
-							tr.appendChild(tdCv);
-							tbody.appendChild(tr);
+						json.forEach(row => {
+							const tr = Tag.newTr();
+							Tag.newTd().append(formatName(row)).into(tr);
+							Tag.newTd().append(row.kana).into(tr);
+							Tag.newTd().append(formatBirth(row)).into(tr);
+							Tag.newTd().append(row.cv).into(tr);
+							idolList.append(tr);
 						});
 
-						document.getElementById("targetsTab").click();
+						targetsTab.element.click();
 					})
-					.catch(function(error) {
-						alert(error);
-					});
-			}
+					.catch(error => alert(error));
+			});
 		</script>
 	</head>
 
 	<body>
 		<header th:replace="tracks/common :: header(~{::form})" class="container">
-			<form class="my-2 p-2 bg-light border rounded" onsubmit="search(this, event)">
+			<form id="searchForm" class="my-2 p-2 bg-light border rounded">
 				<div class="row align-items-center">
 					<div class="col-auto pe-1">
 						<select name="target" class="form-select">
