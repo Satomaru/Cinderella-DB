@@ -357,33 +357,25 @@ export class Tag {
 export class TagLoader {
 
 	/**
-	 * TRタグを作成して、繰り返しTDタグを装填する。
+	 * 繰り返しTDタグを装填する。
 	 *
+	 * @param {Tag} self       - 子要素を装填するタグ
 	 * @param {string} classes - TDタグのクラス名
 	 * @returns {TagLoader}
 	 */
-	static newTr(...classes) {
-		return new TagLoader(Tag.newTr(), () => Tag.newTd(...classes));
+	static loadTd(self, ...classes) {
+		return new TagLoader(self, () => Tag.newTd(...classes));
 	}
 
 	/**
-	 * OLタグを作成して、繰り返しLIタグを装填する。
+	 * 繰り返しLIタグを装填する。
 	 *
+	 * @param {Tag} self       - 子要素を装填するタグ
 	 * @param {string} classes - LIタグのクラス名
 	 * @returns {TagLoader}
 	 */
-	static newOl(...classes) {
-		return new TagLoader(Tag.newOl(), () => Tag.newLi(...classes));
-	}
-
-	/**
-	 * ULタグを作成して、繰り返しLIタグを装填する。
-	 *
-	 * @param {string} classes - LIタグのクラス名
-	 * @returns {TagLoader}
-	 */
-	static newUl(...liClasses) {
-		return new TagLoader(Tag.newUl(), () => Tag.newLi(...liClasses));
+	static loadLi(self, ...classes) {
+		return new TagLoader(self, () => Tag.newLi(...classes));
 	}
 
 	/**

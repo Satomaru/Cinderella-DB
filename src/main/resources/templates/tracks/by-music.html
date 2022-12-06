@@ -41,7 +41,7 @@
 					.then(json => {
 						musicList.clear();
 
-						json.forEach(row => TagLoader.newTr()
+						json.forEach(row => TagLoader.loadTd(Tag.newTr())
 							.load(formatName(row))
 							.load(row.kana)
 							.load(row.lyrics)

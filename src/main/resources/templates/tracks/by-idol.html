@@ -49,7 +49,7 @@
 					.then(json => {
 						idolList.clear();
 
-						json.forEach(row => TagLoader.newTr()
+						json.forEach(row => TagLoader.loadTd(Tag.newTr())
 							.load(formatName(row))
 							.load(row.kana)
 							.load(formatBirth(row))
