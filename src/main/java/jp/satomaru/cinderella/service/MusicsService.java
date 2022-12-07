@@ -21,7 +21,7 @@ public class MusicsService {
 	/**
 	 * 楽曲を取得する。
 	 * 
-	 * @param id ID
+	 * @param id 楽曲ID
 	 * @return 楽曲
 	 */
 	public Optional<Music> get(Integer id) {

@@ -21,7 +21,7 @@ public class DiscsService {
 	/**
 	 * 円盤を取得する。
 	 * 
-	 * @param id ID
+	 * @param id 円盤ID
 	 * @return 円盤
 	 */
 	public Optional<Disc> get(Integer id) {

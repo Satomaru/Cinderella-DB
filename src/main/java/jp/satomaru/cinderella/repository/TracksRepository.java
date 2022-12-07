@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import jp.satomaru.cinderella.entity.Disc;
+import jp.satomaru.cinderella.entity.Idol;
 import jp.satomaru.cinderella.entity.Music;
 import jp.satomaru.cinderella.entity.Track;
 
@@ -44,4 +45,19 @@ public interface TracksRepository extends JpaRepository<Track, Integer> {
 			+ "LEFT JOIN FETCH ti.idol "
 			+ "WHERE t.music=:music ")
 	List<Track> findBy(@Param("music") Music music);
+
+	/**
+	 * アイドルで検索する。
+	 * 
+	 * @param idol アイドル
+	 * @return トラック一覧
+	 */
+	@Query("SELECT t "
+			+ "FROM tracks t "
+			+ "INNER JOIN FETCH t.disc "
+			+ "INNER JOIN FETCH t.music "
+			+ "LEFT JOIN FETCH t.trackIdols ti "
+			+ "LEFT JOIN FETCH ti.idol "
+			+ "WHERE ti.idol=:idol ")
+	List<Track> findBy(@Param("idol") Idol idol);
 }

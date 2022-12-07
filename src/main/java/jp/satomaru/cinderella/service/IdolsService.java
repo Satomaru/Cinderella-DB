@@ -21,7 +21,7 @@ public class IdolsService {
 	/**
 	 * アイドルを取得する。
 	 * 
-	 * @param id ID
+	 * @param id アイドルID
 	 * @return アイドル
 	 */
 	public Optional<Idol> get(Integer id) {
