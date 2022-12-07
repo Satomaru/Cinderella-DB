@@ -4,16 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 楽曲。
  */
 @Entity(name = "musics")
+@NoArgsConstructor
 @Getter
+@Setter
 public class Music {
 
+	/**
+	 * 楽曲を作成する。
+	 * 
+	 * @param id ID
+	 */
+	public Music(Integer id) {
+		this.id = id;
+	}
+
 	/** ID。 */
-	@Id private Integer id;
+	@Id
+	private Integer id;
 
 	/** 名前。 */
 	private String name;

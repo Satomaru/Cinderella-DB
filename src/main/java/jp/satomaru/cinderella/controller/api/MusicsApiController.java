@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Music;
+import jp.satomaru.cinderella.entity.Track;
 import jp.satomaru.cinderella.service.MusicsService;
+import jp.satomaru.cinderella.service.TracksService;
 
 /**
  * 楽曲APIコントローラ。
@@ -25,10 +27,12 @@ public class MusicsApiController {
 
 	@Autowired private MusicsService musicsService;
 
+	@Autowired private TracksService tracksService;
+
 	/**
 	 * 楽曲を取得する。
 	 * 
-	 * @param id ID
+	 * @param id 楽曲ID
 	 * @return 楽曲
 	 */
 	@GetMapping(path = "/{id}")
@@ -36,6 +40,19 @@ public class MusicsApiController {
 			@PathVariable Integer id) {
 
 		return musicsService.get(id);
+	}
+
+	/**
+	 * 楽曲のトラック一覧を取得する。
+	 * 
+	 * @param id 楽曲ID
+	 * @return トラック一覧
+	 */
+	@GetMapping(path = "/{id}/tracks")
+	public @ResponseBody Iterable<Track> getTracksOfMusic(
+			@PathVariable Integer id) {
+
+		return tracksService.findByMusic(id);
 	}
 
 	/**

@@ -4,16 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * 円盤。
  */
 @Entity(name = "discs")
+@NoArgsConstructor
 @Getter
+@Setter
 public class Disc {
 
+	/**
+	 * 円盤を作成する。
+	 * 
+	 * @param id ID
+	 */
+	public Disc(Integer id) {
+		this.id = id;
+	}
+
 	/** ID。 */
-	@Id private Integer id;
+	@Id
+	private Integer id;
 
 	/** 名前。 */
 	private String name;

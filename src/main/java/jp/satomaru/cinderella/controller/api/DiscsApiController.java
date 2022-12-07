@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Disc;
+import jp.satomaru.cinderella.entity.Track;
 import jp.satomaru.cinderella.service.DiscsService;
+import jp.satomaru.cinderella.service.TracksService;
 
 /**
  * 円盤APIコントローラ。
@@ -25,10 +27,12 @@ public class DiscsApiController {
 
 	@Autowired private DiscsService discsService;
 
+	@Autowired private TracksService tracksService;
+
 	/**
 	 * 円盤を取得する。
 	 * 
-	 * @param id ID
+	 * @param id 円盤ID
 	 * @return 円盤
 	 */
 	@GetMapping(path = "/{id}")
@@ -36,6 +40,19 @@ public class DiscsApiController {
 			@PathVariable Integer id) {
 
 		return discsService.get(id);
+	}
+
+	/**
+	 * 円盤のトラック一覧を取得する。
+	 * 
+	 * @param id 円盤ID
+	 * @return トラック一覧
+	 */
+	@GetMapping(path = "/{id}/tracks")
+	public @ResponseBody Iterable<Track> getTracksOfDisc(
+			@PathVariable Integer id) {
+
+		return tracksService.findByDisc(id);
 	}
 
 	/**
