@@ -23,7 +23,7 @@
 			const targetsTab = Tag.find("targetsTab");
 
 			const formatName = row => Tag.newButton(`music w-100 border rounded text-white`).append(row.name);
-			const formatCover = row => row.cover ? Tag.newIcon("bi-chat-square-quote") : null;
+			const formatCover = row => row.cover ? Tag.newIcon("bi bi-chat-square-quote") : null;
 
 			searchForm.listen("submit", event => {
 				event.preventDefault();
