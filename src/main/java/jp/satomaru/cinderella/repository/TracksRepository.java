@@ -58,6 +58,6 @@ public interface TracksRepository extends JpaRepository<Track, Integer> {
 			+ "INNER JOIN FETCH t.music "
 			+ "LEFT JOIN FETCH t.trackIdols ti "
 			+ "LEFT JOIN FETCH ti.idol "
-			+ "WHERE ti.idol=:idol ")
+			+ "WHERE EXISTS (SELECT 1 FROM track_idols e WHERE e.ids.track_id=t.id AND e.idol=:idol) ")
 	List<Track> findBy(@Param("idol") Idol idol);
 }
