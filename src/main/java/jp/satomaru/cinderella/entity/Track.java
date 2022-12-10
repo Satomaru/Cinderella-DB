@@ -1,6 +1,5 @@
 package jp.satomaru.cinderella.entity;
 
-import java.util.Comparator;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -19,18 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Track {
-
-	/** 円盤とトラックNoで並べ替える。 */
-	public static final Comparator<Track> SORT_DISC_TRACK = (Track left, Track right) -> {
-		int byDisc = left.getDisc().getId().compareTo(right.getDisc().getId());
-
-		if (byDisc != 0) {
-			return byDisc;
-		}
-
-		return left.getTrack().compareTo(right.getTrack());
-	};
+public class Track implements Comparable<Track> {
 
 	/**
 	 * トラックを作成する。
@@ -62,4 +50,15 @@ public class Track {
 	/** トラック・アイドル。 */
 	@OneToMany(mappedBy = "ids.track_id")
 	private Set<TrackIdol> trackIdols;
+
+	@Override
+	public int compareTo(Track other) {
+		int byDisc = disc.compareTo(other.getDisc());
+
+		if (byDisc != 0) {
+			return byDisc;
+		}
+
+		return track.compareTo(other.track);
+	}
 }

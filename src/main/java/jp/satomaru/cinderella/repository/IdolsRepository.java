@@ -1,6 +1,6 @@
 package jp.satomaru.cinderella.repository;
 
-import java.util.List;
+import java.util.TreeSet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,7 +17,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param name 名前 (部分一致)
 	 * @return アイドル一覧
 	 */
-	List<Idol> findByNameContainingOrderByKana(String name);
+	TreeSet<Idol> findByNameContaining(String name);
 
 	/**
 	 * かなで検索する。
@@ -25,7 +25,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param kana かな (部分一致)
 	 * @return アイドル一覧
 	 */
-	List<Idol> findByKanaContainingOrderByKana(String kana);
+	TreeSet<Idol> findByKanaContaining(String kana);
 
 	/**
 	 * タイプで検索する。
@@ -33,7 +33,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param type タイプ (Cu/Pa/Co)
 	 * @return アイドル一覧
 	 */
-	List<Idol> findByTypeOrderByKana(String type);
+	TreeSet<Idol> findByType(String type);
 
 	/**
 	 * 名前とタイプで検索する。
@@ -42,7 +42,7 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param type タイプ (Cu/Pa/Co)
 	 * @return アイドル一覧
 	 */
-	List<Idol> findByNameContainingAndTypeOrderByKana(String name, String type);
+	TreeSet<Idol> findByNameContainingAndType(String name, String type);
 
 	/**
 	 * かなとタイプで検索する。
@@ -51,5 +51,5 @@ public interface IdolsRepository extends JpaRepository<Idol, Integer> {
 	 * @param type タイプ (Cu/Pa/Co)
 	 * @return アイドル一覧
 	 */
-	List<Idol> findByKanaContainingAndTypeOrderByKana(String kana, String type);
+	TreeSet<Idol> findByKanaContainingAndType(String kana, String type);
 }

@@ -1,9 +1,9 @@
 package jp.satomaru.cinderella.service;
 
 import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -34,12 +34,12 @@ public class DiscsService {
 	 * @param name 名前 (部分一致、ブランク可)
 	 * @return 円盤一覧
 	 */
-	public Iterable<Disc> findByName(String name) {
+	public TreeSet<Disc> findByName(String name) {
 		if (StringUtils.hasText(name)) {
-			return discsRepository.findByNameContainingOrderByName(name);
+			return discsRepository.findByNameContaining(name);
 		}
 
-		return discsRepository.findAll(Sort.by("name"));
+		return new TreeSet<>(discsRepository.findAll());
 	}
 
 	/**
@@ -48,12 +48,12 @@ public class DiscsService {
 	 * @param kana かな (部分一致、ブランク可)
 	 * @return 円盤一覧
 	 */
-	public Iterable<Disc> findByKana(String kana) {
+	public TreeSet<Disc> findByKana(String kana) {
 		if (StringUtils.hasText(kana)) {
-			return discsRepository.findByKanaContainingOrderByName(kana);
+			return discsRepository.findByKanaContaining(kana);
 		}
 
-		return discsRepository.findAll(Sort.by("name"));
+		return new TreeSet<>(discsRepository.findAll());
 	}
 
 	/**
@@ -62,12 +62,12 @@ public class DiscsService {
 	 * @param label レーベル (部分一致、ブランク可)
 	 * @return 円盤一覧
 	 */
-	public Iterable<Disc> findByLabel(String label) {
+	public TreeSet<Disc> findByLabel(String label) {
 		if (StringUtils.hasText(label)) {
-			return discsRepository.findByLabelContainingOrderByName(label);
+			return discsRepository.findByLabelContaining(label);
 		}
 
-		return discsRepository.findAll(Sort.by("name"));
+		return new TreeSet<>(discsRepository.findAll());
 	}
 
 	/**
@@ -76,11 +76,11 @@ public class DiscsService {
 	 * @param code コード (部分一致、ブランク可)
 	 * @return 円盤一覧
 	 */
-	public Iterable<Disc> findByCode(String code) {
+	public TreeSet<Disc> findByCode(String code) {
 		if (StringUtils.hasText(code)) {
-			return discsRepository.findByCodeContainingOrderByName(code);
+			return discsRepository.findByCodeContaining(code);
 		}
 
-		return discsRepository.findAll(Sort.by("name"));
+		return new TreeSet<>(discsRepository.findAll());
 	}
 }

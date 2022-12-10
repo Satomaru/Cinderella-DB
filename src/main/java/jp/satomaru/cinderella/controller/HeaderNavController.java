@@ -43,7 +43,7 @@ public class HeaderNavController {
 	 * @param model モデル
 	 * @return "tracks/by-idol"
 	 */
-	@GetMapping("/tracks/by-idol")
+	@GetMapping("/tracks/by-idol/")
 	public String showTracksByIdol(Model model) {
 		model.addAttribute("pageTitle", "Find Tracks by Idol");
 		model.addAttribute("targetsName", "Idols");
@@ -64,7 +64,7 @@ public class HeaderNavController {
 	 * @param model モデル
 	 * @return "tracks/by-music"
 	 */
-	@GetMapping("/tracks/by-music")
+	@GetMapping("/tracks/by-music/")
 	public String showTracksByMusic(Model model) {
 		model.addAttribute("pageTitle", "Find Tracks by Music");
 		model.addAttribute("targetsName", "Musics");
@@ -85,7 +85,7 @@ public class HeaderNavController {
 	 * @param model モデル
 	 * @return "tracks/by-disc"
 	 */
-	@GetMapping("/tracks/by-disc")
+	@GetMapping("/tracks/by-disc/")
 	public String showTracksByDisc(Model model) {
 		model.addAttribute("pageTitle", "Find Tracks by Disc");
 		model.addAttribute("targetsName", "Discs");

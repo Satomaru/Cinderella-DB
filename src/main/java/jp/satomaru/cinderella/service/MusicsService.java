@@ -1,9 +1,9 @@
 package jp.satomaru.cinderella.service;
 
 import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -35,12 +35,12 @@ public class MusicsService {
 	 * @param withoutCover カバーを含めない場合はtrue
 	 * @return 楽曲一覧
 	 */
-	public Iterable<Music> findByName(String name, boolean withoutCover) {
+	public TreeSet<Music> findByName(String name, boolean withoutCover) {
 		if (StringUtils.hasText(name)) {
 			if (withoutCover) {
-				return musicsRepository.findByNameContainingAndCoverOrderByKana(name, false);
+				return musicsRepository.findByNameContainingAndCover(name, false);
 			} else {
-				return musicsRepository.findByNameContainingOrderByKana(name);
+				return musicsRepository.findByNameContaining(name);
 			}
 		}
 
@@ -54,12 +54,12 @@ public class MusicsService {
 	 * @param withoutCover カバーを含めない場合はtrue
 	 * @return 楽曲一覧
 	 */
-	public Iterable<Music> findByKana(String kana, boolean withoutCover) {
+	public TreeSet<Music> findByKana(String kana, boolean withoutCover) {
 		if (StringUtils.hasText(kana)) {
 			if (withoutCover) {
-				return musicsRepository.findByKanaContainingAndCoverOrderByKana(kana, false);
+				return musicsRepository.findByKanaContainingAndCover(kana, false);
 			} else {
-				return musicsRepository.findByKanaContainingOrderByKana(kana);
+				return musicsRepository.findByKanaContaining(kana);
 			}
 		}
 
@@ -73,12 +73,12 @@ public class MusicsService {
 	 * @param withoutCover カバーを含めない場合はtrue
 	 * @return 楽曲一覧
 	 */
-	public Iterable<Music> findByLyrics(String lyrics, boolean withoutCover) {
+	public TreeSet<Music> findByLyrics(String lyrics, boolean withoutCover) {
 		if (StringUtils.hasText(lyrics)) {
 			if (withoutCover) {
-				return musicsRepository.findByLyricsContainingAndCoverOrderByKana(lyrics, false);
+				return musicsRepository.findByLyricsContainingAndCover(lyrics, false);
 			} else {
-				return musicsRepository.findByLyricsContainingOrderByKana(lyrics);
+				return musicsRepository.findByLyricsContaining(lyrics);
 			}
 		}
 
@@ -92,12 +92,12 @@ public class MusicsService {
 	 * @param withoutCover カバーを含めない場合はtrue
 	 * @return 楽曲一覧
 	 */
-	public Iterable<Music> findByCompose(String compose, boolean withoutCover) {
+	public TreeSet<Music> findByCompose(String compose, boolean withoutCover) {
 		if (StringUtils.hasText(compose)) {
 			if (withoutCover) {
-				return musicsRepository.findByComposeContainingAndCoverOrderByKana(compose, false);
+				return musicsRepository.findByComposeContainingAndCover(compose, false);
 			} else {
-				return musicsRepository.findByComposeContainingOrderByKana(compose);
+				return musicsRepository.findByComposeContaining(compose);
 			}
 		}
 
@@ -110,11 +110,11 @@ public class MusicsService {
 	 * @param withoutCover カバーを含めない場合はtrue
 	 * @return 楽曲一覧
 	 */
-	public Iterable<Music> findByCover(boolean withoutCover) {
+	public TreeSet<Music> findByCover(boolean withoutCover) {
 		if (withoutCover) {
-			return musicsRepository.findByCoverOrderByKana(false);
-		} else {
-			return musicsRepository.findAll(Sort.by("kana"));
+			return musicsRepository.findByCover(false);
 		}
+
+		return new TreeSet<>(musicsRepository.findAll());
 	}
 }

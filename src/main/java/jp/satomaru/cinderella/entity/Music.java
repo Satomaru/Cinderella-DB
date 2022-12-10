@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Music {
+public class Music implements Comparable<Music> {
 
 	/**
 	 * 楽曲を作成する。
@@ -46,4 +46,9 @@ public class Music {
 
 	/** インスト。 */
 	private Boolean inst;
+
+	@Override
+	public int compareTo(Music other) {
+		return kana.compareTo(other.kana);
+	}
 }

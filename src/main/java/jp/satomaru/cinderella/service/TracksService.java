@@ -25,10 +25,8 @@ public class TracksService {
 	 * @param discId 円盤ID
 	 * @return トラック一覧
 	 */
-	public Iterable<Track> findByDisc(Integer discId) {
-		TreeSet<Track> sorted = new TreeSet<>(Track.SORT_DISC_TRACK);
-		sorted.addAll(tracksRepository.findBy(new Disc(discId)));
-		return sorted;
+	public TreeSet<Track> findByDisc(Integer discId) {
+		return tracksRepository.findBy(new Disc(discId));
 	}
 
 	/**
@@ -37,10 +35,8 @@ public class TracksService {
 	 * @param musicId 楽曲ID
 	 * @return トラック一覧
 	 */
-	public Iterable<Track> findByMusic(Integer musicId) {
-		TreeSet<Track> sorted = new TreeSet<>(Track.SORT_DISC_TRACK);
-		sorted.addAll(tracksRepository.findBy(new Music(musicId)));
-		return sorted;
+	public TreeSet<Track> findByMusic(Integer musicId) {
+		return tracksRepository.findBy(new Music(musicId));
 	}
 
 	/**
@@ -49,9 +45,7 @@ public class TracksService {
 	 * @param idolId アイドルID
 	 * @return トラック一覧
 	 */
-	public Iterable<Track> findByIdol(Integer idolId) {
-		TreeSet<Track> sorted = new TreeSet<>(Track.SORT_DISC_TRACK);
-		sorted.addAll(tracksRepository.findBy(new Idol(idolId)));
-		return sorted;
+	public TreeSet<Track> findByIdol(Integer idolId) {
+		return tracksRepository.findBy(new Idol(idolId));
 	}
 }

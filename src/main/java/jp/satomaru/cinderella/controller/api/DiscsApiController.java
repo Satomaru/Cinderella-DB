@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Disc;
-import jp.satomaru.cinderella.entity.Track;
+import jp.satomaru.cinderella.form.TrackListRow;
 import jp.satomaru.cinderella.service.DiscsService;
 import jp.satomaru.cinderella.service.TracksService;
 
@@ -28,32 +28,6 @@ public class DiscsApiController {
 	@Autowired private DiscsService discsService;
 
 	@Autowired private TracksService tracksService;
-
-	/**
-	 * 円盤を取得する。
-	 * 
-	 * @param id 円盤ID
-	 * @return 円盤
-	 */
-	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Disc> getDisc(
-			@PathVariable Integer id) {
-
-		return discsService.get(id);
-	}
-
-	/**
-	 * 円盤のトラック一覧を取得する。
-	 * 
-	 * @param id 円盤ID
-	 * @return トラック一覧
-	 */
-	@GetMapping(path = "/{id}/tracks")
-	public @ResponseBody Iterable<Track> getTracksOfDisc(
-			@PathVariable Integer id) {
-
-		return tracksService.findByDisc(id);
-	}
 
 	/**
 	 * 円盤一覧を取得する。
@@ -74,5 +48,31 @@ public class DiscsApiController {
 			case "code":  return discsService.findByCode(match);
 			default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	/**
+	 * 円盤を取得する。
+	 * 
+	 * @param id 円盤ID
+	 * @return 円盤
+	 */
+	@GetMapping(path = "/{id}/")
+	public @ResponseBody Optional<Disc> getDisc(
+			@PathVariable Integer id) {
+
+		return discsService.get(id);
+	}
+
+	/**
+	 * 円盤のトラック一覧を取得する。
+	 * 
+	 * @param id 円盤ID
+	 * @return トラック一覧
+	 */
+	@GetMapping(path = "/{id}/tracks/")
+	public @ResponseBody Iterable<TrackListRow> getTracksOfDisc(
+			@PathVariable Integer id) {
+
+		return tracksService.findByDisc(id).stream().map(TrackListRow::new).toList();
 	}
 }

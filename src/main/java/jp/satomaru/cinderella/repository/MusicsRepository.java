@@ -1,6 +1,6 @@
 package jp.satomaru.cinderella.repository;
 
-import java.util.List;
+import java.util.TreeSet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,7 +17,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param name 名前 (部分一致)
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByNameContainingOrderByKana(String name);
+	TreeSet<Music> findByNameContaining(String name);
 
 	/**
 	 * かなで検索する。
@@ -25,7 +25,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param kana かな (部分一致)
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByKanaContainingOrderByKana(String kana);
+	TreeSet<Music> findByKanaContaining(String kana);
 
 	/**
 	 * 作詞で検索する。
@@ -33,7 +33,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param lyrics 作詞 (部分一致)
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByLyricsContainingOrderByKana(String lyrics);
+	TreeSet<Music> findByLyricsContaining(String lyrics);
 
 	/**
 	 * 作曲で検索する。
@@ -41,7 +41,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param compose 作曲 (部分一致)
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByComposeContainingOrderByKana(String compose);
+	TreeSet<Music> findByComposeContaining(String compose);
 
 	/**
 	 * カバーで検索する。
@@ -49,7 +49,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param cover カバー
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByCoverOrderByKana(Boolean cover);
+	TreeSet<Music> findByCover(Boolean cover);
 
 	/**
 	 * 名前とカバーで検索する。
@@ -58,7 +58,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param cover カバー
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByNameContainingAndCoverOrderByKana(String name, Boolean cover);
+	TreeSet<Music> findByNameContainingAndCover(String name, Boolean cover);
 
 	/**
 	 * かなとカバーで検索する。
@@ -67,7 +67,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param cover カバー
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByKanaContainingAndCoverOrderByKana(String kana, Boolean cover);
+	TreeSet<Music> findByKanaContainingAndCover(String kana, Boolean cover);
 
 	/**
 	 * 作詞とカバーで検索する。
@@ -76,7 +76,7 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param cover カバー
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByLyricsContainingAndCoverOrderByKana(String lyrics, Boolean cover);
+	TreeSet<Music> findByLyricsContainingAndCover(String lyrics, Boolean cover);
 
 	/**
 	 * 作曲とカバーで検索する。
@@ -85,5 +85,5 @@ public interface MusicsRepository extends JpaRepository<Music, Integer> {
 	 * @param cover カバー
 	 * @return 楽曲一覧
 	 */
-	List<Music> findByComposeContainingAndCoverOrderByKana(String compose, Boolean cover);
+	TreeSet<Music> findByComposeContainingAndCover(String compose, Boolean cover);
 }

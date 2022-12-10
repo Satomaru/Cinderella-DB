@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Idol {
+public class Idol implements Comparable<Idol> {
 
 	/**
 	 * アイドルを作成する。
@@ -43,4 +43,9 @@ public class Idol {
 
 	/** キャラクターボイス。 */
 	private String cv;
+
+	@Override
+	public int compareTo(Idol other) {
+		return kana.compareTo(other.kana);
+	}
 }

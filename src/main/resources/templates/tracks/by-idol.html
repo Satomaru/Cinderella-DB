@@ -10,15 +10,19 @@
 		<title th:text="|${pageTitle} - #{application.title}|">title</title>
 
 		<style>
-			button.type-Cu {
+			button.typeAl {
+				background: linear-gradient(70deg, #f6f, #44f, #ffc830);
+			}
+
+			button.typeCu {
 				background-color: #f6f;
 			}
 
-			button.type-Pa {
+			button.typePa {
 				background-color: #ffc830;
 			}
 			
-			button.type-Co {
+			button.typeCo {
 				background-color: #44f;
 			}
 		</style>
@@ -30,8 +34,8 @@
 			const idolList = Tag.find("idolList");
 			const targetsTab = Tag.find("targetsTab");
 
-			const formatName = row => Tag.newButton(`type-${row.type} w-100 border rounded text-white`).append(row.name);
-			const formatBirth = row => row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4);
+			const formatName = row => Tag.newButton(`type${row.type} w-100 border rounded text-white`).append(row.name);
+			const formatBirth = row => row.birth ? row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4) : null;
 
 			searchForm.listen("submit", event => {
 				event.preventDefault();

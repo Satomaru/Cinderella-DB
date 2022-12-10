@@ -1,9 +1,9 @@
 package jp.satomaru.cinderella.service;
 
 import java.util.Optional;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -35,23 +35,23 @@ public class IdolsService {
 	 * @param type タイプ (Cu/Pa/Co、ブランク可)
 	 * @return アイドル一覧
 	 */
-	public Iterable<Idol> findByName(String name, String type) {
+	public TreeSet<Idol> findByName(String name, String type) {
 		boolean hasName = StringUtils.hasText(name);
 		boolean hasType = StringUtils.hasText(type);
 
 		if (hasName && !hasType) {
-			return idolsRepository.findByNameContainingOrderByKana(name);
+			return idolsRepository.findByNameContaining(name);
 		}
 
 		if (!hasName && hasType) {
-			return idolsRepository.findByTypeOrderByKana(type);
+			return idolsRepository.findByType(type);
 		}
 
 		if (hasName && hasType) {
-			return idolsRepository.findByNameContainingAndTypeOrderByKana(name, type);
+			return idolsRepository.findByNameContainingAndType(name, type);
 		}
 
-		return idolsRepository.findAll(Sort.by("kana"));
+		return new TreeSet<>(idolsRepository.findAll());
 	}
 
 	/**
@@ -61,22 +61,22 @@ public class IdolsService {
 	 * @param type タイプ (Cu/Pa/Co、ブランク可)
 	 * @return アイドル一覧
 	 */
-	public Iterable<Idol> findByKana(String kana, String type) {
+	public TreeSet<Idol> findByKana(String kana, String type) {
 		boolean hasKana = StringUtils.hasText(kana);
 		boolean hasType = StringUtils.hasText(type);
 
 		if (hasKana && !hasType) {
-			return idolsRepository.findByKanaContainingOrderByKana(kana);
+			return idolsRepository.findByKanaContaining(kana);
 		}
 
 		if (!hasKana && hasType) {
-			return idolsRepository.findByTypeOrderByKana(type);
+			return idolsRepository.findByType(type);
 		}
 
 		if (hasKana && hasType) {
-			return idolsRepository.findByKanaContainingAndTypeOrderByKana(kana, type);
+			return idolsRepository.findByKanaContainingAndType(kana, type);
 		}
 
-		return idolsRepository.findAll(Sort.by("kana"));
+		return new TreeSet<>(idolsRepository.findAll());
 	}
 }

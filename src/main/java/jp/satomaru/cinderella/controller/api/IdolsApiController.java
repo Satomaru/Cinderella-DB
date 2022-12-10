@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import jp.satomaru.cinderella.entity.Idol;
-import jp.satomaru.cinderella.entity.Track;
+import jp.satomaru.cinderella.form.TrackListRow;
 import jp.satomaru.cinderella.service.IdolsService;
 import jp.satomaru.cinderella.service.TracksService;
 
@@ -28,32 +28,6 @@ public class IdolsApiController {
 	@Autowired private IdolsService idolsService;
 
 	@Autowired private TracksService tracksService;
-
-	/**
-	 * アイドルを取得する。
-	 * 
-	 * @param id アイドルID
-	 * @return アイドル
-	 */
-	@GetMapping(path = "/{id}")
-	public @ResponseBody Optional<Idol> getIdol(
-			@PathVariable Integer id) {
-
-		return idolsService.get(id);
-	}
-
-	/**
-	 * アイドルのトラック一覧を取得する。
-	 * 
-	 * @param id アイドルID
-	 * @return トラック一覧
-	 */
-	@GetMapping(path = "/{id}/tracks")
-	public @ResponseBody Iterable<Track> getTracksOfIdol(
-			@PathVariable Integer id) {
-
-		return tracksService.findByIdol(id);
-	}
 
 	/**
 	 * アイドル一覧を取得する。
@@ -74,5 +48,31 @@ public class IdolsApiController {
 			case "kana": return idolsService.findByKana(match, type);
 			default: throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	/**
+	 * アイドルを取得する。
+	 * 
+	 * @param id アイドルID
+	 * @return アイドル
+	 */
+	@GetMapping(path = "/{id}/")
+	public @ResponseBody Optional<Idol> getIdol(
+			@PathVariable Integer id) {
+
+		return idolsService.get(id);
+	}
+
+	/**
+	 * アイドルのトラック一覧を取得する。
+	 * 
+	 * @param id アイドルID
+	 * @return トラック一覧
+	 */
+	@GetMapping(path = "/{id}/tracks/")
+	public @ResponseBody Iterable<TrackListRow> getTracksOfIdol(
+			@PathVariable Integer id) {
+
+		return tracksService.findByIdol(id).stream().map(TrackListRow::new).toList();
 	}
 }

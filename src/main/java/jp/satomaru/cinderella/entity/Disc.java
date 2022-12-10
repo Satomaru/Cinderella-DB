@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Disc {
+public class Disc implements Comparable<Disc> {
 
 	/**
 	 * 円盤を作成する。
@@ -43,4 +43,9 @@ public class Disc {
 
 	/** サイト。 */
 	private String site;
+
+	@Override
+	public int compareTo(Disc other) {
+		return name.compareTo(other.name);
+	}
 }

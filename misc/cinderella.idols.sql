@@ -188,4 +188,4 @@ INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) V
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (188, "依田芳乃", "よりたよしの", "Pa", "0703", "高田憂希");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (189, "龍崎薫", "りゅうざきかおる", "Pa", "0720", "春瀬なつみ");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (190, "若林智香", "わかばやしともか", "Pa", "0830", NULL);
-INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (65535, "CINDERELLA PROJECT", "しんでれらぷろじぇくと", NULL, NULL, NULL);
+INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (65535, "CINDERELLA PROJECT", "しんでれらぷろじぇくと", "Al", NULL, NULL);

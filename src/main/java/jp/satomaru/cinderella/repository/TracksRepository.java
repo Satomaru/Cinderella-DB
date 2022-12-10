@@ -1,6 +1,6 @@
 package jp.satomaru.cinderella.repository;
 
-import java.util.List;
+import java.util.TreeSet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,7 +29,7 @@ public interface TracksRepository extends JpaRepository<Track, Integer> {
 			+ "LEFT JOIN FETCH t.trackIdols ti "
 			+ "LEFT JOIN FETCH ti.idol "
 			+ "WHERE t.disc=:disc ")
-	List<Track> findBy(@Param("disc") Disc disc);
+	TreeSet<Track> findBy(@Param("disc") Disc disc);
 
 	/**
 	 * 楽曲で検索する。
@@ -44,7 +44,7 @@ public interface TracksRepository extends JpaRepository<Track, Integer> {
 			+ "LEFT JOIN FETCH t.trackIdols ti "
 			+ "LEFT JOIN FETCH ti.idol "
 			+ "WHERE t.music=:music ")
-	List<Track> findBy(@Param("music") Music music);
+	TreeSet<Track> findBy(@Param("music") Music music);
 
 	/**
 	 * アイドルで検索する。
@@ -59,5 +59,5 @@ public interface TracksRepository extends JpaRepository<Track, Integer> {
 			+ "LEFT JOIN FETCH t.trackIdols ti "
 			+ "LEFT JOIN FETCH ti.idol "
 			+ "WHERE EXISTS (SELECT 1 FROM track_idols e WHERE e.ids.track_id=t.id AND e.idol=:idol) ")
-	List<Track> findBy(@Param("idol") Idol idol);
+	TreeSet<Track> findBy(@Param("idol") Idol idol);
 }

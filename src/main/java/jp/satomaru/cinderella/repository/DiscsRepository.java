@@ -1,6 +1,6 @@
 package jp.satomaru.cinderella.repository;
 
-import java.util.List;
+import java.util.TreeSet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -17,7 +17,7 @@ public interface DiscsRepository extends JpaRepository<Disc, Integer> {
 	 * @param name 名前 (部分一致)
 	 * @return 円盤一覧
 	 */
-	List<Disc> findByNameContainingOrderByName(String name);
+	TreeSet<Disc> findByNameContaining(String name);
 
 	/**
 	 * かなで検索する。
@@ -25,7 +25,7 @@ public interface DiscsRepository extends JpaRepository<Disc, Integer> {
 	 * @param kana かな (部分一致)
 	 * @return 円盤一覧
 	 */
-	List<Disc> findByKanaContainingOrderByName(String kana);
+	TreeSet<Disc> findByKanaContaining(String kana);
 
 	/**
 	 * レーベルで検索する。
@@ -33,7 +33,7 @@ public interface DiscsRepository extends JpaRepository<Disc, Integer> {
 	 * @param label レーベル (部分一致)
 	 * @return 円盤一覧
 	 */
-	List<Disc> findByLabelContainingOrderByName(String label);
+	TreeSet<Disc> findByLabelContaining(String label);
 
 	/**
 	 * コードで検索する。
@@ -41,5 +41,5 @@ public interface DiscsRepository extends JpaRepository<Disc, Integer> {
 	 * @param code コード (部分一致)
 	 * @return 円盤一覧
 	 */
-	List<Disc> findByCodeContainingOrderByName(String code);
+	TreeSet<Disc> findByCodeContaining(String code);
 }
