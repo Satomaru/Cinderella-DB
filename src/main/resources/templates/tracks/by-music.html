@@ -6,23 +6,42 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-		<link rel="stylesheet" href="../../static/standard.css" th:href="@{/standard.css}">
+		<link rel="stylesheet" href="../../static/css/standard.css" th:href="@{/css/standard.css}">
+		<link rel="stylesheet" href="../../static/css/tracks.css" th:href="@{/css/tracks.css}">
 		<title th:text="|${pageTitle} - #{application.title}|">title</title>
 
 		<style>
-			button.music {
-				background-color: #888;
+			#musicList .music {
+				width: 100%;
+				border-style: none;
+				border-radius: 8px;
+				background: linear-gradient(90deg, #444, #ccc);
+				color: #fff;
+				text-align: left;
+			}
+
+			#musicList .kana {
+				padding-left: 4px;
+				font-size: smaller;
+				font-weight: 100;
 			}
 		</style>
 
 		<script type="module">
+			import * as Tracks      from "[[@{/js/tracks.js}]]";
 			import {Tag, TagLoader} from "[[@{/js/classes/tag.js}]]";
 
 			const searchForm = Tag.find("searchForm");
-			const musicList = Tag.find("musicList");
+			const musicList  = Tag.find("musicList");
 			const targetsTab = Tag.find("targetsTab");
 
-			const formatName = row => Tag.newButton(`music w-100 border rounded text-white`).append(row.name);
+			const formatName = row => {
+				const div = Tag.newDiv();
+				Tag.newDiv("kana").append(row.kana).into(div);
+				Tag.newButton("music").set("value", row.id).append(row.name).into(div);
+				return div;
+			}
+
 			const formatCover = row => row.cover ? Tag.newIcon("bi bi-chat-square-quote") : null;
 
 			searchForm.listen("submit", event => {
@@ -43,15 +62,35 @@
 
 						json.forEach(row => TagLoader.loadTd(Tag.newTr())
 							.load(formatName(row))
-							.load(row.kana)
 							.load(row.lyrics)
 							.load(row.compose)
 							.load(formatCover(row))
 							.into(musicList)
 						);
 
+						window.scrollTo(0, 0);
 						targetsTab.element.click();
 					})
+					.catch(error => alert(error));
+			});
+
+
+			musicList.listen("click", event => {
+				const target = Tag.of(event.target);
+
+				if (!target.value || !target.hasClasses("music")) {
+					reurn;
+				}
+
+				fetch(`[[@{/api/musics/}]]${target.value}/tracks/`)
+					.then(response => {
+						if (response.status !== 200) {
+							throw `検索に失敗しました。(${response.status})`;
+						}
+
+						return response.json();
+					})
+					.then(json => Tracks.build(json))
 					.catch(error => alert(error));
 			});
 		</script>
@@ -91,8 +130,7 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th scope="col" style="width: 23em; white-space:nowrap;">名前</th>
-						<th scope="col">かな</th>
+						<th scope="col" style="width: 32em;">名前 / かな</th>
 						<th scope="col">作詞</th>
 						<th scope="col">作曲</th>
 						<th scope="col" style="width: 3em; white-space:nowrap;">カバー</th>

@@ -281,8 +281,20 @@ export class Tag {
 	 * @returns {Tag}
 	 */
 	addClasses(...classes) {
-		classes.forEach(token => this.element.classList.add(...token.split(/\s+/)));
+		classes.forEach(className => this.element.classList.add(...className.split(/\s+/)));
 		return this;
+	}
+
+	/**
+	 * クラスが指定されていることを判定する。
+	 *
+	 * @param {string} classes - クラス名
+	 * @returns {boolean}
+	 */
+	hasClasses(...classes) {
+		return classes.every(className => className.split(/\s+/)
+			.every(token => this.element.classList.contains(token))
+		);
 	}
 
 	/**
@@ -379,6 +391,17 @@ export class TagLoader {
 	}
 
 	/**
+	 * 繰り返しDIVタグを装填する。
+	 *
+	 * @param {Tag} self       - 子要素を装填するタグ
+	 * @param {string} classes - DIVタグのクラス名
+	 * @returns {TagLoader}
+	 */
+	static loadDiv(self, ...classes) {
+		return new TagLoader(self, () => Tag.newDiv(...classes));
+	}
+
+	/**
 	 * 子要素を装填するタグ。
 	 *
 	 * @type {Tag}
@@ -418,8 +441,8 @@ export class TagLoader {
 	 * @param {(string | Tag | HTMLElement | null)} content - 装填する子要素の内容
 	 * @returns {TagLoader}
 	 */
-	load(content) {
-		this.#generator().append(content).into(this.self);
+	load(...content) {
+		this.#generator().append(...content).into(this.self);
 		return this;
 	}
 

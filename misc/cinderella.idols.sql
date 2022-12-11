@@ -131,7 +131,7 @@ INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) V
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (131, "愛野渚", "あいのなぎさ", "Pa", "0801", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (132, "相葉夕美", "あいばゆみ", "Pa", "0415", "木村珠莉");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (133, "赤城みりあ", "あかぎみりあ", "Pa", "0414", "黒沢ともよ");
-INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (134, "イヴ・サンタクロース", "いぶさんたくろうす", "Pa", "1224", NULL);
+INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (134, "イヴ・サンタクロース", "いぶさんたくろーす", "Pa", "1224", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (135, "市原仁奈", "いちはらにな", "Pa", "0208", "久野美咲");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (136, "上田鈴帆", "うえだすずほ", "Pa", "1026", "春野ななみ");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (137, "衛藤美紗希", "えとうみさき", "Pa", "0318", NULL);
@@ -143,7 +143,7 @@ INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) V
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (143, "喜多日菜子", "きたひなこ", "Pa", "0406", "深川芹亜");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (144, "喜多見柚", "きたみゆず", "Pa", "1202", "武田羅梨沙多胡");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (145, "木村夏樹", "きむらなつき", "Pa", "0819", "安野希世乃");
-INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (146, "キャシー・グラハム", "きゃしいぐらはむ", "Pa", "0919", NULL);
+INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (146, "キャシー・グラハム", "きゃしーぐらはむ", "Pa", "0919", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (147, "小関麗奈", "こせきれいな", "Pa", "0305", "長野佑紀");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (148, "小松伊吹", "こまついぶき", "Pa", "1117", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (149, "財前時子", "ざいぜんときこ", "Pa", "0418", NULL);
@@ -160,7 +160,7 @@ INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) V
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (160, "高森藍子", "たかもりあいこ", "Pa", "0725", "金子有希");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (161, "土屋亜子", "つちやあこ", "Pa", "0502", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (162, "十時愛梨", "とときあいり", "Pa", "1208", "原田ひとみ");
-INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (163, "ナターリア", "なたありあ", "Pa", "0629", "生田輝");
+INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (163, "ナターリア", "なたーりあ", "Pa", "0629", "生田輝");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (164, "並木芽衣子", "なみきめいこ", "Pa", "1014", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (165, "南条光", "なんじょうひかる", "Pa", "0913", "神谷早矢佳");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (166, "難波笑美", "なんばえみ", "Pa", "0501", "伊達朱里紗");
@@ -181,7 +181,7 @@ INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) V
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (181, "三好紗南", "みよしさな", "Pa", "0625", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (182, "向井拓海", "むかいたくみ", "Pa", "0807", "原優子");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (183, "村上巴", "むらかみともえ", "Pa", "0103", "花井美春");
-INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (184, "メアリー・コクラン", "めありいこくらん", "Pa", "0119", NULL);
+INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (184, "メアリー・コクラン", "めありーこくらん", "Pa", "0119", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (185, "諸星きらり", "もろぼしきらり", "Pa", "0901", "松嵜麗");
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (186, "矢口美羽", "やぐちみう", "Pa", "0710", NULL);
 INSERT INTO `cinderella`.`idols` (`id`, `name`, `kana`, `type`, `birth`, `cv`) VALUES (187, "夢見りあむ", "ゆめみりあむ", "Pa", "0912", "星希成奏");

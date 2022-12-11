@@ -6,36 +6,59 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-		<link rel="stylesheet" href="../../static/standard.css" th:href="@{/standard.css}">
+		<link rel="stylesheet" href="../../static/css/standard.css" th:href="@{/css/standard.css}">
+		<link rel="stylesheet" href="../../static/css/tracks.css" th:href="@{/css/tracks.css}">
 		<title th:text="|${pageTitle} - #{application.title}|">title</title>
 
 		<style>
-			button.typeAl {
-				background: linear-gradient(70deg, #f6f, #44f, #ffc830);
+			#idolList .idol {
+				width: 100%;
+				border-style: none;
+				border-radius: 8px;
+				color: #fff;
+				text-align: left;
 			}
 
-			button.typeCu {
-				background-color: #f6f;
+			#idolList .typeAl {
+				background: linear-gradient(60deg, #77f, #f8f, #fc4);
 			}
 
-			button.typePa {
-				background-color: #ffc830;
+			#idolList .typeCu {
+				background: linear-gradient(90deg, #d3d, #fcf);
+			}
+
+			#idolList .typePa {
+				background: linear-gradient(90deg, #d80, #ff7);
 			}
 			
-			button.typeCo {
-				background-color: #44f;
+			#idolList .typeCo {
+				background: linear-gradient(90deg, #33d, #aaf);
+			}
+
+			#idolList .kana {
+				padding-left: 4px;
+				font-size: smaller;
+				font-weight: 100;
 			}
 		</style>
 
 		<script type="module">
+			import * as Utility     from "[[@{/js/utility.js}]]";
+			import * as Tracks      from "[[@{/js/tracks.js}]]";
 			import {Tag, TagLoader} from "[[@{/js/classes/tag.js}]]";
 
 			const searchForm = Tag.find("searchForm");
-			const idolList = Tag.find("idolList");
 			const targetsTab = Tag.find("targetsTab");
+			const idolList =   Tag.find("idolList");
 
-			const formatName = row => Tag.newButton(`type${row.type} w-100 border rounded text-white`).append(row.name);
-			const formatBirth = row => row.birth ? row.birth.substring(0, 2) + "-" + row.birth.substring(2, 4) : null;
+			const formatName = row => {
+				const div = Tag.newDiv();
+				Tag.newDiv("kana").append(row.kana).into(div);
+				Tag.newButton(`idol type${row.type}`).set("value", row.id).append(row.name).into(div);
+				return div;
+			};
+
+			const formatBirth = row => Utility.insert(row.birth, 2, "-");
 
 			searchForm.listen("submit", event => {
 				event.preventDefault();
@@ -55,14 +78,33 @@
 
 						json.forEach(row => TagLoader.loadTd(Tag.newTr())
 							.load(formatName(row))
-							.load(row.kana)
 							.load(formatBirth(row))
 							.load(row.cv)
 							.into(idolList)
 						);
 
+						window.scrollTo(0, 0);
 						targetsTab.element.click();
 					})
+					.catch(error => alert(error));
+			});
+
+			idolList.listen("click", event => {
+				const target = Tag.of(event.target);
+
+				if (!target.value || !target.hasClasses("idol")) {
+					reurn;
+				}
+
+				fetch(`[[@{/api/idols/}]]${target.value}/tracks/`)
+					.then(response => {
+						if (response.status !== 200) {
+							throw `検索に失敗しました。(${response.status})`;
+						}
+
+						return response.json();
+					})
+					.then(json => Tracks.build(json))
 					.catch(error => alert(error));
 			});
 		</script>
@@ -124,10 +166,9 @@
 			<table class="table w-auto">
 				<thead>
 					<tr>
-						<th scope="col" style="min-width: 14em;">名前</th>
-						<th scope="col" style="min-width: 14em;">かな</th>
-						<th scope="col" style="min-width: 4em;">誕生日</th>
-						<th scope="col" style="min-width: 14em;">CV</th>
+						<th scope="col" style="width: 16em;">名前 / かな</th>
+						<th scope="col" style="width: 4em;">誕生日</th>
+						<th scope="col" style="width: 16em;">CV</th>
 					</tr>
 				</thead>
 				<tbody id="idolList"></tbody>
